@@ -8,6 +8,6 @@ public interface LoanService {
 	
 	public void calculateRepaymentPlan(RepaymentPlan repaymentPlan) throws Exception;
 
-	void calculateRepaymentPlanWithOverpayment(RepaymentPlan repaymentPlan) throws Exception;
+	//void calculateRepaymentPlanWithOverpayment(RepaymentPlan repaymentPlan) throws Exception;
 
 }
