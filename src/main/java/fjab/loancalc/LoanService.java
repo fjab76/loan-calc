@@ -4,7 +4,7 @@ import fjab.loancalc.french.model.RepaymentPlan;
 
 public interface LoanService {
 	
-	public double workOutPeriodicPayment(double interestRateForEveryPeriod,double capitalToPayBack,int numberPaymentPeriods);
+	//public double workOutPeriodicPayment(double interestRateForEveryPeriod,double capitalToPayBack,int numberPaymentPeriods);
 	
 	public void calculateRepaymentPlan(RepaymentPlan repaymentPlan) throws Exception;
 

@@ -23,7 +23,7 @@ public class LoanServiceImp implements LoanService {
 	 * @param numberPaymentPeriods If the payment happens every month, this is the number of months of the loan
 	 * @return
 	 */
-	@Override
+	//@Override
 	public double workOutPeriodicPayment(double interestRateForEveryPeriod,double capitalToPayBack,int numberPaymentPeriods){
 		
 		//simplifying the name of the variables to make the formula below more readable
