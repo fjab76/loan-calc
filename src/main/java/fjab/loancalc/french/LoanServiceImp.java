@@ -36,35 +36,6 @@ public class LoanServiceImp implements LoanService {
 		return periodicPayment;
 	}
 
-	@Override
-	public void calculateRepaymentPlan(RepaymentPlan repaymentPlan) throws Exception {
-		
-		/*Checking the loan coordinates that are necessary to work out the repayment plan:
-			(1) annual interest rate
-			(2) number of annual payments
-			(3) loan amount
-			(4) loan length (expressed as number of payments)
-			(5) periodic payment --> loan length and periodic payment are mutually exclusive
-		 */
-		if(!checkLoanCoordinates(repaymentPlan.getAnnualInterestRate(),repaymentPlan.getNumberAnnualPayments(),repaymentPlan.getLoanAmount(),repaymentPlan.getLoanLength(),repaymentPlan.getPeriodicPayment())){
-			throw new Exception("loan coordinates are wrong");		
-		}
-
-		
-		double interestRateForEveryPeriod = getInterestRateForEveryPeriod(repaymentPlan.getAnnualInterestRate(),repaymentPlan.getNumberAnnualPayments());
-
-		if(repaymentPlan.getLoanLength()!=null){
-			calculateRepaymentPlanWithFixedLength(repaymentPlan,interestRateForEveryPeriod);
-		}
-		else if(repaymentPlan.getPeriodicPayment()!=null){
-			calculateRepaymentPlanWithFixedPayment(repaymentPlan,interestRateForEveryPeriod);
-		}
-		else{
-			//This case should not be possible if the method checkLoanCoordinates works correctly
-			throw new Exception("loan coordinates are wrong: loan length and periodic payment are exclusive");
-		}
-		
-	}
 	
 	private void calculateRepaymentPlanWithFixedPayment(RepaymentPlan repaymentPlan, double interestRateForEveryPeriod) {
 		
@@ -180,14 +151,30 @@ public class LoanServiceImp implements LoanService {
 			//System.out.println(repayment.toString());
 		}
 	}
-
-	//@Override
-	public void calculateRepaymentPlanWithOverpayment(RepaymentPlan repaymentPlan) throws Exception {
+	
+	private void calculateSimpleRepaymentPlan(RepaymentPlan repaymentPlan) throws Exception{
 		
-		//Checking overpayment coordinates
-		if(!checkOverpaymentCoordinates(repaymentPlan.getOverpaymentAmount(),repaymentPlan.getOverpaymentPeriodNumber(),repaymentPlan.getOverpaymentType())){
-			throw new Exception();
+		if(!checkLoanCoordinates(repaymentPlan.getAnnualInterestRate(),repaymentPlan.getNumberAnnualPayments(),repaymentPlan.getLoanAmount(),repaymentPlan.getLoanLength(),repaymentPlan.getPeriodicPayment())){
+			throw new Exception("loan coordinates are wrong");		
 		}
+	
+		
+		double interestRateForEveryPeriod = getInterestRateForEveryPeriod(repaymentPlan.getAnnualInterestRate(),repaymentPlan.getNumberAnnualPayments());
+	
+		if(repaymentPlan.getLoanLength()!=null){
+			calculateRepaymentPlanWithFixedLength(repaymentPlan,interestRateForEveryPeriod);
+		}
+		else if(repaymentPlan.getPeriodicPayment()!=null){
+			calculateRepaymentPlanWithFixedPayment(repaymentPlan,interestRateForEveryPeriod);
+		}
+		else{
+			//This case should not be possible if the method checkLoanCoordinates works correctly
+			throw new Exception("loan coordinates are wrong: loan length and periodic payment are exclusive");
+		}
+	}
+
+	@Override
+	public void calculateRepaymentPlan(RepaymentPlan repaymentPlan) throws Exception {
 		
 		/*
 		 * A repayment with overpayment can be split up in 2 regular repayment plans: one before the overpayment and another
@@ -196,19 +183,29 @@ public class LoanServiceImp implements LoanService {
 		 */
 		
 		//STEP 1: regular repayment plan 1 
-		calculateRepaymentPlan(repaymentPlan);
+		/*Checking the loan coordinates that are necessary to work out the repayment plan:
+		(1) annual interest rate
+		(2) number of annual payments
+		(3) loan amount
+		(4) loan length (expressed as number of payments)
+		(5) periodic payment --> loan length and periodic payment are mutually exclusive
+	 */
+		calculateSimpleRepaymentPlan(repaymentPlan);
 		
-		//STEP 2: overpayment
-		/*
-		 * If overpayment happens in payment period N, all the payments greater than N must be discarded
-		 * Besides, in payment period N there are 2 payments: the scheduled payment plus the overpayment
-		 */		
-		Repayment lastRepaymentBeforeOverpayment = loanServiceHelper.removeRepaymentsAfterOverpaymentPeriodNumber(repaymentPlan.getRepaymentPlan(),repaymentPlan.getOverpaymentPeriodNumber());
-		loanServiceHelper.createOverpayment(lastRepaymentBeforeOverpayment,repaymentPlan);
-		
-		//STEP 3: regular repayment plan 
-		loanServiceHelper.recalculateLoanCoordinatesAfterOverpayment(repaymentPlan);
-		calculateRepaymentPlan(repaymentPlan);
+		if(checkOverpaymentCoordinates(repaymentPlan.getOverpaymentAmount(),repaymentPlan.getOverpaymentPeriodNumber(),repaymentPlan.getOverpaymentType())){
+
+			//STEP 2: overpayment
+			/*
+			 * If overpayment happens in payment period N, all the payments greater than N must be discarded
+			 * Besides, in payment period N there are 2 payments: the scheduled payment plus the overpayment
+			 */		
+			Repayment lastRepaymentBeforeOverpayment = loanServiceHelper.removeRepaymentsAfterOverpaymentPeriodNumber(repaymentPlan.getRepaymentPlan(),repaymentPlan.getOverpaymentPeriodNumber());
+			loanServiceHelper.createOverpayment(lastRepaymentBeforeOverpayment,repaymentPlan);
+			
+			//STEP 3: regular repayment plan 
+			loanServiceHelper.recalculateLoanCoordinatesAfterOverpayment(repaymentPlan);
+			calculateSimpleRepaymentPlan(repaymentPlan);
+		}
 		
 		LOGGER.info("========> REPAYMENT PLAN");
 		for(Repayment repayment : repaymentPlan.getRepaymentPlan()){

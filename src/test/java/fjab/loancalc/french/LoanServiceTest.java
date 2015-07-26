@@ -478,7 +478,7 @@ public class LoanServiceTest {
 		repaymentPlan.setOverpaymentPeriodNumber(OVERPAYMENT_PERIOD);
 		repaymentPlan.setOverpaymentType(OVERPAYMENT_TYPE);
 		
-		loanServiceImp.calculateRepaymentPlanWithOverpayment(repaymentPlan);
+		loanServiceImp.calculateRepaymentPlan(repaymentPlan);
 		
 		assertThat(repaymentPlan.getRepaymentPlan(),matchRepayment(expectedRepaymentPlan.getRepaymentPlan()));
 	}
@@ -712,7 +712,7 @@ public class LoanServiceTest {
 		repaymentPlan.setOverpaymentPeriodNumber(OVERPAYMENT_PERIOD);
 		repaymentPlan.setOverpaymentType(OVERPAYMENT_TYPE);
 		
-		loanServiceImp.calculateRepaymentPlanWithOverpayment(repaymentPlan);
+		loanServiceImp.calculateRepaymentPlan(repaymentPlan);
 		
 		assertThat(repaymentPlan.getRepaymentPlan(),matchRepayment(expectedRepaymentPlan.getRepaymentPlan()));
 		
@@ -812,7 +812,7 @@ public class LoanServiceTest {
 		repaymentPlan.setOverpaymentPeriodNumber(OVERPAYMENT_PERIOD);
 		repaymentPlan.setOverpaymentType(OVERPAYMENT_TYPE);
 		
-		loanServiceImp.calculateRepaymentPlanWithOverpayment(repaymentPlan);
+		loanServiceImp.calculateRepaymentPlan(repaymentPlan);
 	}
 	
 	@Test
@@ -836,7 +836,7 @@ public class LoanServiceTest {
 		repaymentPlan.setOverpaymentPeriodNumber(OVERPAYMENT_PERIOD);
 		repaymentPlan.setOverpaymentType(OVERPAYMENT_TYPE);
 		
-		loanServiceImp.calculateRepaymentPlanWithOverpayment(repaymentPlan);
+		loanServiceImp.calculateRepaymentPlan(repaymentPlan);
 	}
 
 }
