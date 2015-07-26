@@ -26,6 +26,10 @@ import java.util.List;
  * Every time an overpayment is made, the principal decreases and thus the amortization plan must be 
  * recalculated. When recalculating the amortization plan, the borrower can choose to fix the length of
  * the loan or the periodic amortization.
+ * Consequently in order to recalculate the amortization plan after an overpayment, it is necessary
+ * to specify the capital paid off (overpayment amount), the payment period when the overpayment
+ * is made and the type of overpayment (to keep the length of the loan or to keep the periodic
+ * amortization). 
  * 
  * 
  * @author franciscoalvarez
