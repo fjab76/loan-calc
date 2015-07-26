@@ -2,7 +2,6 @@ package fjab.loancalc.french;
 
 import org.apache.log4j.Logger;
 
-import fjab.loancalc.LoanService;
 import fjab.loancalc.french.model.Repayment;
 import fjab.loancalc.french.model.RepaymentPlan;
 import fjab.loancalc.french.model.RepaymentPlan.OverpaymentType;

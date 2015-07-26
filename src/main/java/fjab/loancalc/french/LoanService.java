@@ -1,4 +1,4 @@
-package fjab.loancalc;
+package fjab.loancalc.french;
 
 import fjab.loancalc.french.model.RepaymentPlan;
 
