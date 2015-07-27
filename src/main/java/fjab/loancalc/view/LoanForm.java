@@ -11,7 +11,6 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 
 public class LoanForm extends FormLayout {
 	
@@ -20,6 +19,7 @@ public class LoanForm extends FormLayout {
 	private TextField numberAnnualPayments = new TextField("Number annual payments:");
 	private TextField loanLengthYears = new TextField("Loan length in years:");
 	private TextField loanLengthMonths = new TextField("Loan length in months:");
+	Button okButton = new Button("OK");
 	
 	FieldGroup fieldGroup;
 
@@ -37,31 +37,27 @@ public class LoanForm extends FormLayout {
 	    addComponent(numberAnnualPayments);
 	    addComponent(loanLengthYears);
 	    addComponent(loanLengthMonths);
-	    addComponent(createOkButton());
+	    addComponent(okButton);
+	    okButton.addClickListener(event -> createListenerLogic(event));
+	    
 		
 	}
 	
-	private Button createOkButton() {
-	    Button okButton = new Button("OK");
-	    okButton.addClickListener(new ClickListener() {
-	      @Override
-	      public void buttonClick(ClickEvent event) {
-	        try {
-	          fieldGroup.commit();
-	          Notification.show("Form committed");
-	          
-	          LoanBean loanBean = new LoanBean((BigDecimal)fieldGroup.getItemDataSource().getItemProperty("annualInterestRate").getValue(),
-	        		  						   (BigDecimal)fieldGroup.getItemDataSource().getItemProperty("loanAmount").getValue(),
-	        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("numberAnnualPayments").getValue(),
-	        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthYears").getValue(),
-	        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
-	          System.out.println(loanBean);
-	        } catch (CommitException e) {
-	          Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
-	        }
-	      }
-	    });
-	    return okButton;
-	  }
-
+	private void createListenerLogic(ClickEvent event) {
+		try 
+		{
+          fieldGroup.commit();
+          Notification.show("Form committed");
+          
+          LoanBean loanBean = new LoanBean((BigDecimal)fieldGroup.getItemDataSource().getItemProperty("annualInterestRate").getValue(),
+        		  						   (BigDecimal)fieldGroup.getItemDataSource().getItemProperty("loanAmount").getValue(),
+        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("numberAnnualPayments").getValue(),
+        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthYears").getValue(),
+        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
+          System.out.println(loanBean);
+        } 
+		catch (CommitException e) {
+          Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
+		}
+	}
 }
