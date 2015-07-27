@@ -1,10 +1,10 @@
-package fjab.loancalc.french;
+package fjab.loancalc.service;
 
 import java.util.List;
 
-import fjab.loancalc.french.model.Repayment;
-import fjab.loancalc.french.model.RepaymentPlan;
-import fjab.loancalc.french.model.RepaymentPlan.OverpaymentType;
+import fjab.loancalc.service.model.Repayment;
+import fjab.loancalc.service.model.RepaymentPlan;
+import fjab.loancalc.service.model.RepaymentPlan.OverpaymentType;
 
 public class LoanServiceHelper {
 

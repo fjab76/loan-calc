@@ -1,6 +1,6 @@
-package fjab.loancalc.french;
+package fjab.loancalc.service;
 
-import fjab.loancalc.french.model.RepaymentPlan;
+import fjab.loancalc.service.model.RepaymentPlan;
 
 public interface LoanService {
 	

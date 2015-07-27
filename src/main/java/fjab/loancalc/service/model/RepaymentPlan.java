@@ -1,4 +1,4 @@
-package fjab.loancalc.french.model;
+package fjab.loancalc.service.model;
 
 import java.util.ArrayList;
 import java.util.List;

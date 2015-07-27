@@ -9,9 +9,11 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 
-import fjab.loancalc.french.model.Repayment;
-import fjab.loancalc.french.model.RepaymentPlan;
-import fjab.loancalc.french.model.RepaymentPlan.OverpaymentType;
+import fjab.loancalc.service.LoanServiceHelper;
+import fjab.loancalc.service.LoanServiceImp;
+import fjab.loancalc.service.model.Repayment;
+import fjab.loancalc.service.model.RepaymentPlan;
+import fjab.loancalc.service.model.RepaymentPlan.OverpaymentType;
 
 import static org.junit.Assert.*;
 

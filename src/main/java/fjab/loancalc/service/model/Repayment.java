@@ -1,4 +1,4 @@
-package fjab.loancalc.french.model;
+package fjab.loancalc.service.model;
 
 /**
  * Representation of a single loan repayment. A loan repayment is defined by the following
