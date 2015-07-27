@@ -18,7 +18,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @Theme("mytheme")
 @Widgetset("fjab.MyAppWidgetset")
-public class MyUI extends UI {
+public class LoanUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -42,8 +42,8 @@ public class MyUI extends UI {
 
     }*/
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+    @WebServlet(urlPatterns = "/*", name = "LoanUIServlet", asyncSupported = true)
+    @VaadinServletConfiguration(ui = LoanUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
 }
