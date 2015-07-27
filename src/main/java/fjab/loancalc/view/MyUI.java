@@ -1,4 +1,4 @@
-package fjab;
+package fjab.loancalc.view;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -22,6 +22,11 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+
+        setContent(new LoanForm());
+
+    }
+    /*protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
@@ -35,7 +40,7 @@ public class MyUI extends UI {
         });
         layout.addComponent(button);
 
-    }
+    }*/
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
