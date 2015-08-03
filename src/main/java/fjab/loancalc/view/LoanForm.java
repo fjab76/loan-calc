@@ -23,11 +23,17 @@ public class LoanForm extends FormLayout {
 	private TextField numberAnnualPayments = new TextField("Number annual payments:");
 	private TextField loanLengthYears = new TextField("Loan length in years:");
 	private TextField loanLengthMonths = new TextField("Loan length in months:");
-	Button okButton = new Button("OK");
+	private Button okButton = new Button("OK");
 	
 	FieldGroup fieldGroup;
 
 	public LoanForm(){
+		
+		annualInterestRate.setNullRepresentation("");
+		loanAmount.setNullRepresentation("");
+		numberAnnualPayments.setNullRepresentation("");
+		loanLengthYears.setNullRepresentation("");
+		loanLengthMonths.setNullRepresentation("");
 		
 		setSizeUndefined();
 		setMargin(true);
