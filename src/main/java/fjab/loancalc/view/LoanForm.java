@@ -21,6 +21,9 @@ import com.vaadin.ui.Button.ClickEvent;
 
 public class LoanForm extends FormLayout {
 	
+	private TextField name = new TextField("Name:");
+	private Label greeting = new Label();
+	
 	private TextField description = new TextField("Write a description for this loan:");
 	// Counter for input length
 	private Label counter = new Label();
@@ -40,8 +43,11 @@ public class LoanForm extends FormLayout {
 		setMargin(true);
 		
 		//Customising form elements
+		name.addTextChangeListener(event -> createNameTextChangeListener(event));
+		name.setTextChangeEventMode(TextChangeEventMode.EAGER);
+		
 		description.setMaxLength(20);
-		description.addTextChangeListener(event -> createTextChangeListener(event));
+		description.addTextChangeListener(event -> createDescriptionTextChangeListener(event));
 		description.setTextChangeEventMode(TextChangeEventMode.EAGER);
 		counter.setValue(description.getValue().length() +" of " + description.getMaxLength());
 		
@@ -59,6 +65,8 @@ public class LoanForm extends FormLayout {
 		fieldGroup.bindMemberFields(this);
 		
 		//Adding elements to the form
+		addComponent(name);
+		addComponent(greeting);
 		addComponent(description);
 		addComponent(counter);
 		addComponent(annualInterestRate);
@@ -72,6 +80,10 @@ public class LoanForm extends FormLayout {
 		
 	}
 	
+	private void createNameTextChangeListener(TextChangeEvent event) {
+		greeting.setValue(event.getText().length()==0 ? "" : "Hello " + event.getText());
+	}
+
 	private void createClickListener(ClickEvent event) {
 		try 
 		{
@@ -94,7 +106,7 @@ public class LoanForm extends FormLayout {
 		}
 	}
 	
-	private void createTextChangeListener(TextChangeEvent event){
+	private void createDescriptionTextChangeListener(TextChangeEvent event){
 		int len = event.getText().length();
         counter.setValue(len + " of " + description.getMaxLength());
 	}
