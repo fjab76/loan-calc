@@ -10,6 +10,10 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+
+import fjab.loancalc.presenter.LoanPresenter;
+import fjab.loancalc.service.LoanServiceImp;
+
 import com.vaadin.ui.Button.ClickEvent;
 
 public class LoanForm extends FormLayout {
@@ -55,9 +59,13 @@ public class LoanForm extends FormLayout {
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthYears").getValue(),
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
           System.out.println(loanBean);
+          new LoanPresenter(new LoanServiceImp(), loanBean).calculateRepaymentPlan();
         } 
 		catch (CommitException e) {
           Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

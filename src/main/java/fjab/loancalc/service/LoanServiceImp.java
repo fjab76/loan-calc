@@ -11,6 +11,11 @@ public class LoanServiceImp implements LoanService {
 	private static final Logger LOGGER = Logger.getLogger(LoanServiceImp.class);
 	
 	private LoanServiceHelper loanServiceHelper;
+	
+	public LoanServiceImp(){
+		super();
+		loanServiceHelper = new LoanServiceHelper();
+	}
 
 	/**
 	 * When calling this method, make sure that the interest rate corresponds to the payment period. For instance, if the
