@@ -14,13 +14,15 @@ public class LoanPresenter {
 		this.loanBean = loanBean;
 	}
 	
-	public void calculateRepaymentPlan() throws Exception{
+	public RepaymentPlan calculateRepaymentPlan() throws Exception{
 		RepaymentPlan repaymentPlan = new RepaymentPlan();
 		repaymentPlan.setAnnualInterestRate(loanBean.getAnnualInterestRate().doubleValue());
 		repaymentPlan.setNumberAnnualPayments(loanBean.getNumberAnnualPayments());
 		repaymentPlan.setLoanAmount(loanBean.getLoanAmount().doubleValue());
 		repaymentPlan.setLoanLength(loanBean.getLoanLengthYears()*12+loanBean.getLoanLengthMonths());
 		loanService.calculateRepaymentPlan(repaymentPlan);
+		
+		return repaymentPlan;
 	}
 
 }

@@ -16,6 +16,7 @@ import com.vaadin.ui.TextField;
 
 import fjab.loancalc.presenter.LoanPresenter;
 import fjab.loancalc.service.LoanServiceImp;
+import fjab.loancalc.service.model.RepaymentPlan;
 
 import com.vaadin.ui.Button.ClickEvent;
 
@@ -34,6 +35,10 @@ public class LoanForm extends FormLayout {
 	private TextField loanLengthYears = new TextField("Loan length in years:");
 	private TextField loanLengthMonths = new TextField("Loan length in months:");
 	private Button okButton = new Button("OK");
+	
+	private Label periodicPayment;
+	private Label totalInterestPaid;
+	
 	FieldGroup fieldGroup;
 
 	public LoanForm(){
@@ -96,7 +101,13 @@ public class LoanForm extends FormLayout {
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthYears").getValue(),
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
           System.out.println(loanBean);
-          new LoanPresenter(new LoanServiceImp(), loanBean).calculateRepaymentPlan();
+          RepaymentPlan repaymentPlan = new LoanPresenter(new LoanServiceImp(), loanBean).calculateRepaymentPlan();
+          if(periodicPayment!=null) removeComponent(periodicPayment);
+          if(totalInterestPaid!=null) removeComponent(totalInterestPaid);
+          periodicPayment = new Label("Periodic payment: " + repaymentPlan.getPeriodicPayment());
+          totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getRepaymentPlan().get(repaymentPlan.getRepaymentPlan().size()-1).getCumulativeInterest());
+          addComponent(periodicPayment);
+          addComponent(totalInterestPaid);
         } 
 		catch (CommitException e) {
           Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
