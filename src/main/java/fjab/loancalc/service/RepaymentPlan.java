@@ -1,4 +1,4 @@
-package fjab.loancalc.service.model;
+package fjab.loancalc.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class RepaymentPlan {
 		return annualInterestRate;
 	}
 
-	public void setAnnualInterestRate(Double annualInterestRate) {
+	void setAnnualInterestRate(Double annualInterestRate) {
 		this.annualInterestRate = annualInterestRate;
 	}
 
@@ -84,7 +84,7 @@ public class RepaymentPlan {
 		return loanAmount;
 	}
 
-	public void setLoanAmount(Double loanAmount) {
+	void setLoanAmount(Double loanAmount) {
 		this.loanAmount = loanAmount;
 	}
 
@@ -92,7 +92,7 @@ public class RepaymentPlan {
 		return numberAnnualPayments;
 	}
 
-	public void setNumberAnnualPayments(Integer numberAnnualPayments) {
+	void setNumberAnnualPayments(Integer numberAnnualPayments) {
 		this.numberAnnualPayments = numberAnnualPayments;
 	}
 
@@ -100,7 +100,7 @@ public class RepaymentPlan {
 		return loanLength;
 	}
 
-	public void setLoanLength(Integer loanLength) {
+	void setLoanLength(Integer loanLength) {
 		this.loanLength = loanLength;
 	}
 
@@ -108,7 +108,7 @@ public class RepaymentPlan {
 		return overpaymentAmount;
 	}
 
-	public void setOverpaymentAmount(Double overpaymentAmount) {
+	void setOverpaymentAmount(Double overpaymentAmount) {
 		this.overpaymentAmount = overpaymentAmount;
 	}
 
@@ -116,7 +116,7 @@ public class RepaymentPlan {
 		return overpaymentPeriodNumber;
 	}
 
-	public void setOverpaymentPeriodNumber(Integer overpaymentPeriodNumber) {
+	void setOverpaymentPeriodNumber(Integer overpaymentPeriodNumber) {
 		this.overpaymentPeriodNumber = overpaymentPeriodNumber;
 	}
 
@@ -124,7 +124,7 @@ public class RepaymentPlan {
 		return overpaymentType;
 	}
 
-	public void setOverpaymentType(OverpaymentType overpaymentType) {
+	void setOverpaymentType(OverpaymentType overpaymentType) {
 		this.overpaymentType = overpaymentType;
 	}
 
@@ -132,7 +132,7 @@ public class RepaymentPlan {
 		return periodicPayment;
 	}
 
-	public void setPeriodicPayment(Double periodicPayment) {
+	void setPeriodicPayment(Double periodicPayment) {
 		this.periodicPayment = periodicPayment;
 	}
 	

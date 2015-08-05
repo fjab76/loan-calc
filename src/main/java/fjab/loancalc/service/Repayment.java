@@ -1,4 +1,4 @@
-package fjab.loancalc.service.model;
+package fjab.loancalc.service;
 
 /**
  * Representation of a single loan repayment. A loan repayment is defined by the following
@@ -47,7 +47,7 @@ public class Repayment{
 		return paymentNumber;
 	}
 
-	public void setPaymentNumber(Integer paymentNumber) {
+	void setPaymentNumber(Integer paymentNumber) {
 		this.paymentNumber = paymentNumber;
 	}
 
@@ -56,7 +56,7 @@ public class Repayment{
 		return periodNumber;
 	}
 
-	public void setPeriodNumber(Integer periodNumber) {
+	void setPeriodNumber(Integer periodNumber) {
 		this.periodNumber = periodNumber;
 	}
 
@@ -65,7 +65,7 @@ public class Repayment{
 		return startBalance;
 	}
 
-	public void setStartBalance(Double startBalance) {
+	void setStartBalance(Double startBalance) {
 		this.startBalance = startBalance;
 	}
 
@@ -74,7 +74,7 @@ public class Repayment{
 		return payment;
 	}
 
-	public void setPayment(Double payment) {
+	void setPayment(Double payment) {
 		this.payment = payment;
 	}
 
@@ -82,7 +82,7 @@ public class Repayment{
 		return capitalPaidOff;
 	}
 
-	public void setCapitalPaidOff(Double capitalPaidOff) {
+	void setCapitalPaidOff(Double capitalPaidOff) {
 		this.capitalPaidOff = capitalPaidOff;
 	}
 
@@ -90,7 +90,7 @@ public class Repayment{
 		return interestPaid;
 	}
 
-	public void setInterestPaid(Double interestPaid) {
+	void setInterestPaid(Double interestPaid) {
 		this.interestPaid = interestPaid;
 	}
 
@@ -98,7 +98,7 @@ public class Repayment{
 		return cumulativeCapitalPaidOff;
 	}
 
-	public void setCumulativeCapitalPaidOff(Double cumulativeCapitalPaidOff) {
+	void setCumulativeCapitalPaidOff(Double cumulativeCapitalPaidOff) {
 		this.cumulativeCapitalPaidOff = cumulativeCapitalPaidOff;
 	}
 
@@ -106,7 +106,7 @@ public class Repayment{
 		return cumulativeInterest;
 	}
 
-	public void setCumulativeInterest(Double cumulativeInterest) {
+	void setCumulativeInterest(Double cumulativeInterest) {
 		this.cumulativeInterest = cumulativeInterest;
 	}
 
@@ -114,7 +114,7 @@ public class Repayment{
 		return endBalance;
 	}
 
-	public void setEndBalance(Double endBalance) {
+	void setEndBalance(Double endBalance) {
 		this.endBalance = endBalance;
 	}
 
@@ -122,7 +122,7 @@ public class Repayment{
 		return totalCostToDate;
 	}
 
-	public void setTotalCostToDate(Double totalCostToDate) {
+	void setTotalCostToDate(Double totalCostToDate) {
 		this.totalCostToDate = totalCostToDate;
 	}
 

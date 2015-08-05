@@ -1,4 +1,4 @@
-package fjab.loancalc.french;
+package fjab.loancalc.service;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.junit.Test;
 
 import fjab.loancalc.service.LoanServiceHelper;
 import fjab.loancalc.service.LoanServiceImp;
-import fjab.loancalc.service.model.Repayment;
-import fjab.loancalc.service.model.RepaymentPlan;
-import fjab.loancalc.service.model.RepaymentPlan.OverpaymentType;
+import fjab.loancalc.service.Repayment;
+import fjab.loancalc.service.RepaymentPlan;
+import fjab.loancalc.service.RepaymentPlan.OverpaymentType;
 
 import static org.junit.Assert.*;
 

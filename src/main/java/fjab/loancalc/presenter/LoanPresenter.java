@@ -1,7 +1,7 @@
 package fjab.loancalc.presenter;
 
 import fjab.loancalc.service.LoanService;
-import fjab.loancalc.service.model.RepaymentPlan;
+import fjab.loancalc.service.RepaymentPlan;
 import fjab.loancalc.view.LoanBean;
 
 public class LoanPresenter {

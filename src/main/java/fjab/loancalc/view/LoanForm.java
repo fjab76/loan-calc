@@ -16,7 +16,7 @@ import com.vaadin.ui.TextField;
 
 import fjab.loancalc.presenter.LoanPresenter;
 import fjab.loancalc.service.LoanServiceImp;
-import fjab.loancalc.service.model.RepaymentPlan;
+import fjab.loancalc.service.RepaymentPlan;
 
 import com.vaadin.ui.Button.ClickEvent;
 
