@@ -33,4 +33,8 @@
   @include valo;
 
   // Insert your own theme rules here
+  .v-panel-caption {
+  	text-align: center;
+  	font-size: 150%;
+  }
 }
