@@ -9,6 +9,7 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
@@ -32,9 +33,13 @@ public class LoanUI extends UI {
     	setContent(main);
     	main.setMargin(true);
     	
+    	//Creating horizontal container
+    	HorizontalLayout hor = new HorizontalLayout();
+    	main.addComponent(hor);
+    	
     	//Creating panel
     	Panel userInfoPanel = new Panel("User info");
-    	main.addComponent(userInfoPanel);
+    	hor.addComponent(userInfoPanel);
     	userInfoPanel.setSizeUndefined();
     	
     	//Creating content for the panel. The panel contains user info
@@ -46,7 +51,7 @@ public class LoanUI extends UI {
     	createDescriptionComponent(userInfoPanelContent);
     	
     	//Creating loan form
-    	main.addComponent(new LoanForm());
+    	hor.addComponent(new LoanForm());
     	
         
 
