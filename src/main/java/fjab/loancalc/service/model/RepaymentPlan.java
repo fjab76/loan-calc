@@ -58,6 +58,14 @@ public class RepaymentPlan {
 	//Repayment list
 	private List<Repayment> repaymentPlan = new ArrayList<>();
 	
+	public RepaymentPlan(){}
+	
+	public RepaymentPlan(Double annualInterestRate, Integer numberAnnualPayments, Double loanAmount, Integer loanLength){
+		this.annualInterestRate = annualInterestRate;
+		this.numberAnnualPayments = numberAnnualPayments;
+		this.loanAmount = loanAmount;
+		this.loanLength = loanLength;
+	}
 	
 	public List<Repayment> getRepaymentPlan(){
 		

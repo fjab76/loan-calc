@@ -15,28 +15,29 @@ public class LoanPresenter {
 	}
 	
 	public RepaymentPlan calculateRepaymentPlan() throws Exception{
-		RepaymentPlan repaymentPlan = new RepaymentPlan();
-		repaymentPlan.setAnnualInterestRate(loanBean.getAnnualInterestRate().doubleValue());
-		//repaymentPlan.setNumberAnnualPayments(loanBean.getNumberAnnualPayments());
-		String repaymentPeriodicity = loanBean.getRepaymentPeriodicity();
 		
+		String repaymentPeriodicity = loanBean.getRepaymentPeriodicity();
+		Integer numberAnnualPayments = null;
 		if("Monthly".equals(repaymentPeriodicity)){
-			repaymentPlan.setNumberAnnualPayments(12);
+			numberAnnualPayments = 12;
 		}
 		else if("Quarterly".equals(repaymentPeriodicity)){
-			repaymentPlan.setNumberAnnualPayments(4);
+			numberAnnualPayments = 4;
 		}
 		else if("Yearly".equals(repaymentPeriodicity)){
-			repaymentPlan.setNumberAnnualPayments(1);
+			numberAnnualPayments = 1;
 		}
 		else{
 			throw new IllegalArgumentException("Wrong repayment periodicity value " + repaymentPeriodicity);
 		}
-			
 		
-		repaymentPlan.setLoanAmount(loanBean.getLoanAmount().doubleValue());
-		int monthAdjustmentFactor = 12/repaymentPlan.getNumberAnnualPayments();
-		repaymentPlan.setLoanLength((loanBean.getLoanLengthYears()==null?0:loanBean.getLoanLengthYears()*repaymentPlan.getNumberAnnualPayments()) + (loanBean.getLoanLengthMonths()==null?0:loanBean.getLoanLengthMonths()/monthAdjustmentFactor));
+		int monthAdjustmentFactor = 12/numberAnnualPayments;
+		Integer loanLength = (loanBean.getLoanLengthYears()==null?0:loanBean.getLoanLengthYears()*numberAnnualPayments) + (loanBean.getLoanLengthMonths()==null?0:loanBean.getLoanLengthMonths()/monthAdjustmentFactor);
+		
+		RepaymentPlan repaymentPlan = new RepaymentPlan(loanBean.getAnnualInterestRate().doubleValue(),
+														numberAnnualPayments,
+														loanBean.getLoanAmount().doubleValue(),
+														loanLength);
 		loanService.calculateRepaymentPlan(repaymentPlan);
 		
 		return repaymentPlan;
