@@ -68,7 +68,7 @@ public class LoanUI extends UI {
     }*/
     
     private void createNameComponent(Layout layout){
-    	TextField name = new TextField("Name:");
+    	TextField name = new TextField("Name");
     	Label greeting = new Label();
     	layout.addComponent(name);
     	layout.addComponent(greeting);
@@ -78,7 +78,7 @@ public class LoanUI extends UI {
     }
     
     private void createDescriptionComponent(Layout layout){
-    	TextField description = new TextField("Write a description for this loan:");
+    	TextField description = new TextField("Loan description");
     	// Counter for input length
     	Label counter = new Label();
     	layout.addComponent(description);

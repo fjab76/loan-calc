@@ -37,4 +37,18 @@
   	text-align: center;
   	font-size: 150%;
   }
+  
+  /* Lay the options horizontally */
+	.v-select-optiongroup .v-select-option {
+	    display: inline-block;
+	}
+	
+	.loan-length{
+		text-align: left;
+		font-size:125%;
+	}
+	
+	td.v-formlayout-captioncell{
+		text-align: right;
+	}
 }

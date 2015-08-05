@@ -6,10 +6,12 @@ import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 
 import fjab.loancalc.presenter.LoanPresenter;
@@ -20,11 +22,14 @@ import com.vaadin.ui.Button.ClickEvent;
 
 public class LoanForm extends FormLayout {
 	
-	private TextField annualInterestRate = new TextField("Annual interest rate:");
-	private TextField loanAmount = new TextField("Loan amount:");
-	private TextField numberAnnualPayments = new TextField("Number annual payments:");
-	private TextField loanLengthYears = new TextField("Loan length in years:");
-	private TextField loanLengthMonths = new TextField("Loan length in months:");
+	private TextField annualInterestRate = new TextField("Annual interest rate");
+	private TextField loanAmount = new TextField("Loan amount");
+	// A single-select radio button group
+	private OptionGroup repaymentPeriodicity = new OptionGroup("Repayment periodicity");
+	//private TextField numberAnnualPayments = new TextField("Number annual payments");
+	private Label loanLength = new Label("<span style='font-size:125%;'>Loan length</span>",ContentMode.HTML);
+	private TextField loanLengthYears = new TextField("years");
+	private TextField loanLengthMonths = new TextField("months");
 	private Button okButton = new Button("OK");
 	
 	private Label periodicPayment;
@@ -38,18 +43,10 @@ public class LoanForm extends FormLayout {
 		setSizeUndefined();
 		setMargin(true);
 		
-		//Customising form elements
-		/*name.addTextChangeListener(event -> createNameTextChangeListener(event));
-		name.setTextChangeEventMode(TextChangeEventMode.EAGER);
-		
-		description.setMaxLength(20);
-		description.addTextChangeListener(event -> createDescriptionTextChangeListener(event));
-		description.setTextChangeEventMode(TextChangeEventMode.EAGER);
-		counter.setValue(description.getValue().length() +" of " + description.getMaxLength());*/
-		
 		annualInterestRate.setNullRepresentation("");
 		loanAmount.setNullRepresentation("");
-		numberAnnualPayments.setNullRepresentation("");
+		repaymentPeriodicity.addItems("Monthly","Quarterly","Yearly");
+		//numberAnnualPayments.setNullRepresentation("");
 		loanLengthYears.setNullRepresentation("");
 		loanLengthMonths.setNullRepresentation("");
 		
@@ -61,13 +58,11 @@ public class LoanForm extends FormLayout {
 		fieldGroup.bindMemberFields(this);
 		
 		//Adding elements to the form
-		//addComponent(name);
-		//addComponent(greeting);
-		//addComponent(description);
-		//addComponent(counter);
 		addComponent(annualInterestRate);
 	    addComponent(loanAmount);
-	    addComponent(numberAnnualPayments);
+	    addComponent(repaymentPeriodicity);
+	    //addComponent(numberAnnualPayments);
+	    addComponent(loanLength);
 	    addComponent(loanLengthYears);
 	    addComponent(loanLengthMonths);
 	    addComponent(okButton);
@@ -84,7 +79,7 @@ public class LoanForm extends FormLayout {
           
           LoanBean loanBean = new LoanBean((BigDecimal)fieldGroup.getItemDataSource().getItemProperty("annualInterestRate").getValue(),
         		  						   (BigDecimal)fieldGroup.getItemDataSource().getItemProperty("loanAmount").getValue(),
-        		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("numberAnnualPayments").getValue(),
+        		  						   (String)fieldGroup.getItemDataSource().getItemProperty("repaymentPeriodicity").getValue(),        		  						   
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthYears").getValue(),
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
           System.out.println(loanBean);
