@@ -78,7 +78,7 @@ public class LoanServiceImp implements LoanService {
 			totalCostToDate = cumulativeCapitalPaidOff+cumulativeInterest;			
 			
 			Repayment repayment = new Repayment();
-			repaymentPlan.getRepaymentPlan().add(repayment);
+			repaymentPlan.addRepayment(repayment);
 			
 			repayment.setPaymentNumber(++paymentNumber);
 			repayment.setPeriodNumber(++periodNumber);
@@ -134,7 +134,7 @@ public class LoanServiceImp implements LoanService {
 			totalCostToDate = cumulativeCapitalPaidOff+cumulativeInterest;			
 			
 			Repayment repayment = new Repayment();
-			repaymentPlan.getRepaymentPlan().add(repayment);
+			repaymentPlan.addRepayment(repayment);
 			
 			repayment.setPaymentNumber(++paymentNumber);
 			repayment.setPeriodNumber(++periodNumber);
@@ -200,7 +200,7 @@ public class LoanServiceImp implements LoanService {
 			 * If overpayment happens in payment period N, all the payments greater than N must be discarded
 			 * Besides, in payment period N there are 2 payments: the scheduled payment plus the overpayment
 			 */		
-			Repayment lastRepaymentBeforeOverpayment = loanServiceHelper.removeRepaymentsAfterOverpaymentPeriodNumber(repaymentPlan.getRepaymentPlan(),repaymentPlan.getOverpaymentPeriodNumber());
+			Repayment lastRepaymentBeforeOverpayment = loanServiceHelper.removeRepaymentsAfterOverpaymentPeriodNumber(repaymentPlan,repaymentPlan.getOverpaymentPeriodNumber());
 			loanServiceHelper.createOverpayment(lastRepaymentBeforeOverpayment,repaymentPlan);
 			
 			//STEP 3: regular repayment plan 

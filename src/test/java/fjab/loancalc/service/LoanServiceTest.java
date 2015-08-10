@@ -61,7 +61,7 @@ public class LoanServiceTest {
 
 		//repayment 1
 		Repayment repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=1;
 		periodNumber = 1;
@@ -76,7 +76,7 @@ public class LoanServiceTest {
 		
 		//repayment 2
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=2;
 		periodNumber = 2;
@@ -93,7 +93,7 @@ public class LoanServiceTest {
 		
 		//repayment 3
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=3;
 		periodNumber = 3;
@@ -109,7 +109,7 @@ public class LoanServiceTest {
 
 		//repayment 4
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=4;
 		periodNumber = 4;
@@ -125,7 +125,7 @@ public class LoanServiceTest {
 
 		//repayment 5
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=5;
 		periodNumber = 5;
@@ -141,7 +141,7 @@ public class LoanServiceTest {
 
 		//repayment 6
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=6;
 		periodNumber = 6;
@@ -158,7 +158,7 @@ public class LoanServiceTest {
 		
 		//repayment 7
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=7;
 		periodNumber = 7;
@@ -175,7 +175,7 @@ public class LoanServiceTest {
 		
 		//repayment 8
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=8;
 		periodNumber = 8;
@@ -192,7 +192,7 @@ public class LoanServiceTest {
 		
 		//repayment 9
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=9;
 		periodNumber = 9;
@@ -209,7 +209,7 @@ public class LoanServiceTest {
 		
 		//repayment 10
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=10;
 		periodNumber = 10;
@@ -226,7 +226,7 @@ public class LoanServiceTest {
 		
 		//repayment 11
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=11;
 		periodNumber = 11;
@@ -243,7 +243,7 @@ public class LoanServiceTest {
 		
 		//repayment 12
 		repayment = new Repayment();
-		expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+		expectedRepaymentPlan.addRepayment(repayment);
 		
 		paymentNumber=12;
 		periodNumber = 12;
@@ -294,7 +294,7 @@ public class LoanServiceTest {
 		//repayment 1
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=1;
 			periodNumber = 1;
@@ -311,7 +311,7 @@ public class LoanServiceTest {
 		//repayment 2
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=2;
 			periodNumber = 2;
@@ -329,7 +329,7 @@ public class LoanServiceTest {
 		//repayment 3
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=3;
 			periodNumber = 3;
@@ -347,7 +347,7 @@ public class LoanServiceTest {
 		//repayment 4 --> Overpayment
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=4;
 			periodNumber = 3;
@@ -365,7 +365,7 @@ public class LoanServiceTest {
 		//repayment 5
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=5;
 			periodNumber = 4;
@@ -383,7 +383,7 @@ public class LoanServiceTest {
 		//repayment 6
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=6;
 			periodNumber = 5;
@@ -401,7 +401,7 @@ public class LoanServiceTest {
 		//repayment 7
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=7;
 			periodNumber = 6;
@@ -419,7 +419,7 @@ public class LoanServiceTest {
 		//repayment 8
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=8;
 			periodNumber = 7;
@@ -437,7 +437,7 @@ public class LoanServiceTest {
 		//repayment 9
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=9;
 			periodNumber = 8;
@@ -455,7 +455,7 @@ public class LoanServiceTest {
 		//repayment 10
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=10;
 			periodNumber = 9;
@@ -510,7 +510,7 @@ public class LoanServiceTest {
 		//repayment 1		
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=1;
 			periodNumber = 1;
@@ -527,7 +527,7 @@ public class LoanServiceTest {
 		//repayment 2
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=2;
 			periodNumber = 2;
@@ -545,7 +545,7 @@ public class LoanServiceTest {
 		//repayment 3
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=3;
 			periodNumber = 3;
@@ -563,7 +563,7 @@ public class LoanServiceTest {
 		//repayment 4 --> Overpayment
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=4;
 			periodNumber = 3;
@@ -581,7 +581,7 @@ public class LoanServiceTest {
 		//repayment 5
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=5;
 			periodNumber = 4;
@@ -599,7 +599,7 @@ public class LoanServiceTest {
 		//repayment 6
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=6;
 			periodNumber = 5;
@@ -617,7 +617,7 @@ public class LoanServiceTest {
 		//repayment 7
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=7;
 			periodNumber = 6;
@@ -635,7 +635,7 @@ public class LoanServiceTest {
 		//repayment 8
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=8;
 			periodNumber = 7;
@@ -653,7 +653,7 @@ public class LoanServiceTest {
 		//repayment 9
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=9;
 			periodNumber = 8;
@@ -671,7 +671,7 @@ public class LoanServiceTest {
 		//repayment 10
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=10;
 			periodNumber = 9;
@@ -689,7 +689,7 @@ public class LoanServiceTest {
 		//repayment 11
 		{
 			Repayment repayment = new Repayment();
-			expectedRepaymentPlan.getRepaymentPlan().add(repayment);
+			expectedRepaymentPlan.addRepayment(repayment);
 			
 			paymentNumber=11;
 			periodNumber = 10;

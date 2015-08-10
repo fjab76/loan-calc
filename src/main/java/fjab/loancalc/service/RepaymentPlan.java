@@ -1,6 +1,7 @@
 package fjab.loancalc.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,8 +69,7 @@ public class RepaymentPlan {
 	}
 	
 	public List<Repayment> getRepaymentPlan(){
-		
-		return repaymentPlan;
+		return Collections.unmodifiableList(repaymentPlan);
 	}
 
 	public Double getAnnualInterestRate() {
@@ -136,5 +136,11 @@ public class RepaymentPlan {
 		this.periodicPayment = periodicPayment;
 	}
 	
-
+	void addRepayment(Repayment repayment){
+		repaymentPlan.add(repayment);
+	}
+	
+	void deleteRepayments(int first, int end){
+		repaymentPlan.subList(first, end).clear();
+	}
 }

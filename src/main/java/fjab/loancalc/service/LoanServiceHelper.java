@@ -6,16 +6,16 @@ import fjab.loancalc.service.RepaymentPlan.OverpaymentType;
 
 public class LoanServiceHelper {
 
-	Repayment removeRepaymentsAfterOverpaymentPeriodNumber(List<Repayment> repaymentPlan, Integer overpaymentPeriodNumber) throws Exception {
+	Repayment removeRepaymentsAfterOverpaymentPeriodNumber(RepaymentPlan repaymentPlan, Integer overpaymentPeriodNumber) throws Exception {
 		
-		int lastRepaymentBeforeOverpaymentIndex = getRepaymentByPeriodNumber(repaymentPlan,overpaymentPeriodNumber);
+		int lastRepaymentBeforeOverpaymentIndex = getRepaymentByPeriodNumber(repaymentPlan.getRepaymentPlan(),overpaymentPeriodNumber);
 		if(lastRepaymentBeforeOverpaymentIndex==-1){
 			throw new Exception("The overpayment must happen in a valid payment period");
 		}
 		
-		repaymentPlan.subList(lastRepaymentBeforeOverpaymentIndex+1, repaymentPlan.size()).clear();
+		repaymentPlan.deleteRepayments(lastRepaymentBeforeOverpaymentIndex+1, repaymentPlan.getRepaymentPlan().size());
 		
-		Repayment lastRepaymentBeforeOverpayment = repaymentPlan.get(lastRepaymentBeforeOverpaymentIndex);
+		Repayment lastRepaymentBeforeOverpayment = repaymentPlan.getRepaymentPlan().get(lastRepaymentBeforeOverpaymentIndex);
 		return lastRepaymentBeforeOverpayment;		
 	}
 	
@@ -38,7 +38,7 @@ public class LoanServiceHelper {
 	void createOverpayment(Repayment lastRepaymentBeforeOverpayment,RepaymentPlan repaymentPlan) {
 		
 		Repayment overpayment = new Repayment();
-		repaymentPlan.getRepaymentPlan().add(overpayment);
+		repaymentPlan.addRepayment(overpayment);
 		
 		overpayment.setPaymentNumber(lastRepaymentBeforeOverpayment.getPaymentNumber()+1);		
 		overpayment.setPeriodNumber(repaymentPlan.getOverpaymentPeriodNumber());
