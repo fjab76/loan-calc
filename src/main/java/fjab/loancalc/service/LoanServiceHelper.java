@@ -1,5 +1,6 @@
 package fjab.loancalc.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import fjab.loancalc.service.RepaymentPlan.OverpaymentType;
@@ -45,11 +46,11 @@ public class LoanServiceHelper {
 		overpayment.setStartBalance(lastRepaymentBeforeOverpayment.getEndBalance());
 		overpayment.setPayment(repaymentPlan.getOverpaymentAmount());
 		overpayment.setCapitalPaidOff(repaymentPlan.getOverpaymentAmount());
-		overpayment.setInterestPaid(0.);
-		overpayment.setEndBalance(lastRepaymentBeforeOverpayment.getEndBalance()-repaymentPlan.getOverpaymentAmount());
-		overpayment.setCumulativeCapitalPaidOff(lastRepaymentBeforeOverpayment.getCumulativeCapitalPaidOff()+repaymentPlan.getOverpaymentAmount());
+		overpayment.setInterestPaid(BigDecimal.ZERO);
+		overpayment.setEndBalance(lastRepaymentBeforeOverpayment.getEndBalance().subtract(repaymentPlan.getOverpaymentAmount()));
+		overpayment.setCumulativeCapitalPaidOff(lastRepaymentBeforeOverpayment.getCumulativeCapitalPaidOff().add(repaymentPlan.getOverpaymentAmount()));
 		overpayment.setCumulativeInterest(lastRepaymentBeforeOverpayment.getCumulativeInterest());
-		overpayment.setTotalCostToDate(lastRepaymentBeforeOverpayment.getTotalCostToDate()+repaymentPlan.getOverpaymentAmount());
+		overpayment.setTotalCostToDate(lastRepaymentBeforeOverpayment.getTotalCostToDate().add(repaymentPlan.getOverpaymentAmount()));
 		
 		//System.out.println(overpayment.toString());
 	}

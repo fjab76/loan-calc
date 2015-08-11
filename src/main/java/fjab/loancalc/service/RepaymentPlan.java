@@ -1,5 +1,6 @@
 package fjab.loancalc.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,17 +40,17 @@ import java.util.List;
 public class RepaymentPlan {
 	
 	//Loan coordinates
-	private Double annualInterestRate;
-	private Double loanAmount;
+	private BigDecimal annualInterestRate;
+	private BigDecimal loanAmount;
 	private Integer numberAnnualPayments;
 	
 	//periodic payment and loan length are mutually exclusive: only one can be fixed and the other
 	//is calculated automatically
 	private Integer loanLength;//expressed as number of payments
-	private Double periodicPayment;
+	private BigDecimal periodicPayment;
 	
 	//Overpayment coordinates
-	private Double overpaymentAmount;
+	private BigDecimal overpaymentAmount;
 	private Integer overpaymentPeriodNumber;//payment period when the overpayment happens
 	private OverpaymentType overpaymentType;	
 	public enum OverpaymentType{
@@ -61,7 +62,7 @@ public class RepaymentPlan {
 	
 	public RepaymentPlan(){}
 	
-	public RepaymentPlan(Double annualInterestRate, Integer numberAnnualPayments, Double loanAmount, Integer loanLength){
+	public RepaymentPlan(BigDecimal annualInterestRate, Integer numberAnnualPayments, BigDecimal loanAmount, Integer loanLength){
 		this.annualInterestRate = annualInterestRate;
 		this.numberAnnualPayments = numberAnnualPayments;
 		this.loanAmount = loanAmount;
@@ -72,19 +73,19 @@ public class RepaymentPlan {
 		return Collections.unmodifiableList(repaymentPlan);
 	}
 
-	public Double getAnnualInterestRate() {
+	public BigDecimal getAnnualInterestRate() {
 		return annualInterestRate;
 	}
 
-	void setAnnualInterestRate(Double annualInterestRate) {
+	void setAnnualInterestRate(BigDecimal annualInterestRate) {
 		this.annualInterestRate = annualInterestRate;
 	}
 
-	public Double getLoanAmount() {
+	public BigDecimal getLoanAmount() {
 		return loanAmount;
 	}
 
-	void setLoanAmount(Double loanAmount) {
+	void setLoanAmount(BigDecimal loanAmount) {
 		this.loanAmount = loanAmount;
 	}
 
@@ -104,11 +105,11 @@ public class RepaymentPlan {
 		this.loanLength = loanLength;
 	}
 
-	public Double getOverpaymentAmount() {
+	public BigDecimal getOverpaymentAmount() {
 		return overpaymentAmount;
 	}
 
-	void setOverpaymentAmount(Double overpaymentAmount) {
+	void setOverpaymentAmount(BigDecimal overpaymentAmount) {
 		this.overpaymentAmount = overpaymentAmount;
 	}
 
@@ -128,11 +129,11 @@ public class RepaymentPlan {
 		this.overpaymentType = overpaymentType;
 	}
 
-	public Double getPeriodicPayment() {
+	public BigDecimal getPeriodicPayment() {
 		return periodicPayment;
 	}
 
-	void setPeriodicPayment(Double periodicPayment) {
+	void setPeriodicPayment(BigDecimal periodicPayment) {
 		this.periodicPayment = periodicPayment;
 	}
 	

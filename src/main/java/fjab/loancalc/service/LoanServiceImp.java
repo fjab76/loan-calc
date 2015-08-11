@@ -1,5 +1,8 @@
 package fjab.loancalc.service;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 import org.apache.log4j.Logger;
 
 import fjab.loancalc.service.RepaymentPlan.OverpaymentType;
@@ -25,31 +28,32 @@ public class LoanServiceImp implements LoanService {
 	 * @param numberPaymentPeriods If the payment happens every month, this is the number of months of the loan
 	 * @return
 	 */
-	private double workOutPeriodicPayment(double interestRateForEveryPeriod,double capitalToPayBack,int numberPaymentPeriods){
+	private BigDecimal workOutPeriodicPayment(BigDecimal interestRateForEveryPeriod,BigDecimal capitalToPayBack,int numberPaymentPeriods){
 		
 		//simplifying the name of the variables to make the formula below more readable
-		double i = interestRateForEveryPeriod;
-		double p = capitalToPayBack;
+		BigDecimal i = interestRateForEveryPeriod;
+		BigDecimal p = capitalToPayBack;
 		int n = numberPaymentPeriods;
 		
 		//periodic payment
-		double periodicPayment = p*(i+(i/(Math.pow(1+i,n)-1)));
+		//BigDecimal periodicPayment = BigDecimal.valueOf(p*(i+(i/(Math.pow(1+i,n)-1))));
+		BigDecimal periodicPayment = p.multiply(i.add(i.divide(BigDecimal.ONE.add(i).pow(n).min(BigDecimal.ONE),new MathContext(2))));
 		return periodicPayment;
 	}
 
 	
-	private void calculateRepaymentPlanWithFixedPayment(RepaymentPlan repaymentPlan, double interestRateForEveryPeriod) {
+	private void calculateRepaymentPlanWithFixedPayment(RepaymentPlan repaymentPlan, BigDecimal interestRateForEveryPeriod) {
 		
-		double periodicPayment = repaymentPlan.getPeriodicPayment();
+		BigDecimal periodicPayment = repaymentPlan.getPeriodicPayment();
 		
-		double capitalToPayBackAtStartOfPeriod = repaymentPlan.getLoanAmount();
+		BigDecimal capitalToPayBackAtStartOfPeriod = repaymentPlan.getLoanAmount();
 		
 		int paymentNumber = 0;
 		int periodNumber = 0;
 		
-		double cumulativeCapitalPaidOff = 0;
-		double cumulativeInterest = 0;
-		double totalCostToDate = 0;
+		BigDecimal cumulativeCapitalPaidOff = BigDecimal.ZERO;
+		BigDecimal cumulativeInterest = BigDecimal.ZERO;
+		BigDecimal totalCostToDate = BigDecimal.ZERO;
 		
 		//In case there is already data in the repayment plan (e.g. after an overpayment), it is necessary to initialise
 		//the cumulative values
@@ -62,20 +66,20 @@ public class LoanServiceImp implements LoanService {
 			periodNumber = lastRepayment.getPeriodNumber();
 		}
 		
-		while(capitalToPayBackAtStartOfPeriod>0){
+		while(capitalToPayBackAtStartOfPeriod.compareTo(BigDecimal.ZERO)==1){
 			
 			//Last payment may be less than scheduled
-			double paymentOfThisPeriod = capitalToPayBackAtStartOfPeriod*(1+interestRateForEveryPeriod);
-			if(paymentOfThisPeriod<periodicPayment){
+			BigDecimal paymentOfThisPeriod = capitalToPayBackAtStartOfPeriod.multiply((BigDecimal.ONE.add(interestRateForEveryPeriod)));
+			if(paymentOfThisPeriod.compareTo(periodicPayment)==-1){
 				periodicPayment = paymentOfThisPeriod;
 			}
 			
-			double interestPaid = capitalToPayBackAtStartOfPeriod * interestRateForEveryPeriod;
-			double capitalPaidOff = periodicPayment - interestPaid;
-			double capitalToPayBackAtEndOfPeriod = capitalToPayBackAtStartOfPeriod - capitalPaidOff;
-			cumulativeCapitalPaidOff += capitalPaidOff;
-			cumulativeInterest += interestPaid;
-			totalCostToDate = cumulativeCapitalPaidOff+cumulativeInterest;			
+			BigDecimal interestPaid = capitalToPayBackAtStartOfPeriod.multiply(interestRateForEveryPeriod);
+			BigDecimal capitalPaidOff = periodicPayment.subtract(interestPaid);
+			BigDecimal capitalToPayBackAtEndOfPeriod = capitalToPayBackAtStartOfPeriod.subtract(capitalPaidOff);
+			cumulativeCapitalPaidOff = cumulativeCapitalPaidOff.add(capitalPaidOff);
+			cumulativeInterest = cumulativeInterest.add(interestPaid);
+			totalCostToDate = cumulativeCapitalPaidOff.add(cumulativeInterest);			
 			
 			Repayment repayment = new Repayment();
 			repaymentPlan.addRepayment(repayment);
@@ -99,19 +103,19 @@ public class LoanServiceImp implements LoanService {
 		repaymentPlan.setLoanLength(periodNumber);
 	}
 
-	private void calculateRepaymentPlanWithFixedLength(RepaymentPlan repaymentPlan, double interestRateForEveryPeriod) {
+	private void calculateRepaymentPlanWithFixedLength(RepaymentPlan repaymentPlan, BigDecimal interestRateForEveryPeriod) {
 		
-		double periodicPayment = workOutPeriodicPayment(interestRateForEveryPeriod,repaymentPlan.getLoanAmount(), repaymentPlan.getLoanLength());
+		BigDecimal periodicPayment = workOutPeriodicPayment(interestRateForEveryPeriod,repaymentPlan.getLoanAmount(), repaymentPlan.getLoanLength());
 		repaymentPlan.setPeriodicPayment(periodicPayment);
 		
-		double capitalToPayBackAtStartOfPeriod = repaymentPlan.getLoanAmount();
+		BigDecimal capitalToPayBackAtStartOfPeriod = repaymentPlan.getLoanAmount();
 		
 		int paymentNumber = 0;
 		int periodNumber = 0;
 		
-		double cumulativeCapitalPaidOff = 0;
-		double cumulativeInterest = 0;
-		double totalCostToDate = 0;
+		BigDecimal cumulativeCapitalPaidOff = BigDecimal.ZERO;
+		BigDecimal cumulativeInterest = BigDecimal.ZERO;
+		BigDecimal totalCostToDate = BigDecimal.ZERO;
 		
 		//In case there is already data in the repayment plan (e.g. after an overpayment), it is necessary to initialise
 		//the cumulative values
@@ -126,12 +130,12 @@ public class LoanServiceImp implements LoanService {
 		
 		for(int j=0;j<repaymentPlan.getLoanLength();j++){
 			
-			double interestPaid = capitalToPayBackAtStartOfPeriod * interestRateForEveryPeriod;
-			double capitalPaidOff = periodicPayment - interestPaid;
-			double capitalToPayBackAtEndOfPeriod = capitalToPayBackAtStartOfPeriod - capitalPaidOff;
-			cumulativeCapitalPaidOff += capitalPaidOff;
-			cumulativeInterest += interestPaid;
-			totalCostToDate = cumulativeCapitalPaidOff+cumulativeInterest;			
+			BigDecimal interestPaid = capitalToPayBackAtStartOfPeriod.multiply(interestRateForEveryPeriod);
+			BigDecimal capitalPaidOff = periodicPayment.subtract(interestPaid);
+			BigDecimal capitalToPayBackAtEndOfPeriod = capitalToPayBackAtStartOfPeriod.subtract(capitalPaidOff);
+			cumulativeCapitalPaidOff = cumulativeCapitalPaidOff.add(capitalPaidOff);
+			cumulativeInterest = cumulativeInterest.add(interestPaid);
+			totalCostToDate = cumulativeCapitalPaidOff.add(cumulativeInterest);			
 			
 			Repayment repayment = new Repayment();
 			repaymentPlan.addRepayment(repayment);
@@ -160,7 +164,7 @@ public class LoanServiceImp implements LoanService {
 		}
 	
 		
-		double interestRateForEveryPeriod = getInterestRateForEveryPeriod(repaymentPlan.getAnnualInterestRate(),repaymentPlan.getNumberAnnualPayments());
+		BigDecimal interestRateForEveryPeriod = getInterestRateForEveryPeriod(repaymentPlan.getAnnualInterestRate(),repaymentPlan.getNumberAnnualPayments());
 	
 		if(repaymentPlan.getLoanLength()!=null){
 			calculateRepaymentPlanWithFixedLength(repaymentPlan,interestRateForEveryPeriod);
@@ -216,11 +220,11 @@ public class LoanServiceImp implements LoanService {
 	}
 	
 
-	private boolean checkOverpaymentCoordinates(Double overpaymentAmount,Integer overpaymentPeriodNumber, OverpaymentType overpaymentType) {
+	private boolean checkOverpaymentCoordinates(BigDecimal overpaymentAmount,Integer overpaymentPeriodNumber, OverpaymentType overpaymentType) {
 		return overpaymentAmount!=null && overpaymentPeriodNumber!=null && overpaymentType!=null;
 	}
 
-	private boolean checkLoanCoordinates(Double annualInterestRate,Integer numberAnnualPayments, Double loanAmount, Integer loanLength, Double periodicPayment) {
+	private boolean checkLoanCoordinates(BigDecimal annualInterestRate,Integer numberAnnualPayments, BigDecimal loanAmount, Integer loanLength, BigDecimal periodicPayment) {
 		
 		return annualInterestRate!=null && numberAnnualPayments!=null && loanAmount!=null && (loanLength!=null || periodicPayment!=null)
 				&& (loanLength==null || periodicPayment==null);
@@ -228,8 +232,9 @@ public class LoanServiceImp implements LoanService {
 	
 
 
-	private double getInterestRateForEveryPeriod(Double annualInterestRate,Integer numberAnnualPayments) {		
-		return Math.pow(1+annualInterestRate,1./numberAnnualPayments)-1;
+	private BigDecimal getInterestRateForEveryPeriod(BigDecimal annualInterestRate,Integer numberAnnualPayments) {		
+		//return BigDecimal.valueOf(Math.pow(1+annualInterestRate.doubleValue(),1./numberAnnualPayments.doubleValue())-1);
+		return BigDecimal.ONE.add(annualInterestRate).pow(BigDecimal.ONE.divide(new BigDecimal(numberAnnualPayments),new MathContext(2)).intValue()).subtract(BigDecimal.ONE);
 	}
 
 	public void setLoanServiceHelper(LoanServiceHelper loanServiceHelper) {

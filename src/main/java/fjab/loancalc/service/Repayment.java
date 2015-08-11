@@ -1,5 +1,7 @@
 package fjab.loancalc.service;
 
+import java.math.BigDecimal;
+
 /**
  * Representation of a single loan repayment. A loan repayment is defined by the following
  * attributes:
@@ -34,14 +36,14 @@ public class Repayment{
 	//Number of the period when the payment is made: when an overpayment happens, there are 2 different payments
 	//at the same periodNumber
 	private Integer periodNumber;
-	private Double startBalance;
-	private Double payment;
-	private Double capitalPaidOff;
-	private Double interestPaid;
-	private Double cumulativeCapitalPaidOff;
-	private Double cumulativeInterest;
-	private Double endBalance;
-	private Double totalCostToDate;
+	private BigDecimal startBalance;
+	private BigDecimal payment;
+	private BigDecimal capitalPaidOff;
+	private BigDecimal interestPaid;
+	private BigDecimal cumulativeCapitalPaidOff;
+	private BigDecimal cumulativeInterest;
+	private BigDecimal endBalance;
+	private BigDecimal totalCostToDate;
 
 	public Integer getPaymentNumber() {
 		return paymentNumber;
@@ -61,68 +63,68 @@ public class Repayment{
 	}
 
 
-	public Double getStartBalance() {
+	public BigDecimal getStartBalance() {
 		return startBalance;
 	}
 
-	void setStartBalance(Double startBalance) {
+	void setStartBalance(BigDecimal startBalance) {
 		this.startBalance = startBalance;
 	}
 
 
-	public Double getPayment() {
+	public BigDecimal getPayment() {
 		return payment;
 	}
 
-	void setPayment(Double payment) {
+	void setPayment(BigDecimal payment) {
 		this.payment = payment;
 	}
 
-	public Double getCapitalPaidOff() {
+	public BigDecimal getCapitalPaidOff() {
 		return capitalPaidOff;
 	}
 
-	void setCapitalPaidOff(Double capitalPaidOff) {
+	void setCapitalPaidOff(BigDecimal capitalPaidOff) {
 		this.capitalPaidOff = capitalPaidOff;
 	}
 
-	public Double getInterestPaid() {
+	public BigDecimal getInterestPaid() {
 		return interestPaid;
 	}
 
-	void setInterestPaid(Double interestPaid) {
+	void setInterestPaid(BigDecimal interestPaid) {
 		this.interestPaid = interestPaid;
 	}
 
-	public Double getCumulativeCapitalPaidOff() {
+	public BigDecimal getCumulativeCapitalPaidOff() {
 		return cumulativeCapitalPaidOff;
 	}
 
-	void setCumulativeCapitalPaidOff(Double cumulativeCapitalPaidOff) {
+	void setCumulativeCapitalPaidOff(BigDecimal cumulativeCapitalPaidOff) {
 		this.cumulativeCapitalPaidOff = cumulativeCapitalPaidOff;
 	}
 
-	public Double getCumulativeInterest() {
+	public BigDecimal getCumulativeInterest() {
 		return cumulativeInterest;
 	}
 
-	void setCumulativeInterest(Double cumulativeInterest) {
+	void setCumulativeInterest(BigDecimal cumulativeInterest) {
 		this.cumulativeInterest = cumulativeInterest;
 	}
 
-	public Double getEndBalance() {
+	public BigDecimal getEndBalance() {
 		return endBalance;
 	}
 
-	void setEndBalance(Double endBalance) {
+	void setEndBalance(BigDecimal endBalance) {
 		this.endBalance = endBalance;
 	}
 
-	public Double getTotalCostToDate() {
+	public BigDecimal getTotalCostToDate() {
 		return totalCostToDate;
 	}
 
-	void setTotalCostToDate(Double totalCostToDate) {
+	void setTotalCostToDate(BigDecimal totalCostToDate) {
 		this.totalCostToDate = totalCostToDate;
 	}
 

@@ -34,9 +34,9 @@ public class LoanPresenter {
 		int monthAdjustmentFactor = 12/numberAnnualPayments;
 		Integer loanLength = (loanBean.getLoanLengthYears()==null?0:loanBean.getLoanLengthYears()*numberAnnualPayments) + (loanBean.getLoanLengthMonths()==null?0:loanBean.getLoanLengthMonths()/monthAdjustmentFactor);
 		
-		RepaymentPlan repaymentPlan = new RepaymentPlan(loanBean.getAnnualInterestRate().doubleValue(),
+		RepaymentPlan repaymentPlan = new RepaymentPlan(loanBean.getAnnualInterestRate(),
 														numberAnnualPayments,
-														loanBean.getLoanAmount().doubleValue(),
+														loanBean.getLoanAmount(),
 														loanLength);
 		loanService.calculateRepaymentPlan(repaymentPlan);
 		
