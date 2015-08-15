@@ -1,6 +1,7 @@
 package fjab.loancalc.view;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -86,8 +87,8 @@ public class LoanForm extends FormLayout {
           RepaymentPlan repaymentPlan = new LoanPresenter(new LoanServiceImp(), loanBean).calculateRepaymentPlan();
           if(periodicPayment!=null) removeComponent(periodicPayment);
           if(totalInterestPaid!=null) removeComponent(totalInterestPaid);
-          periodicPayment = new Label("Periodic payment: " + repaymentPlan.getPeriodicPayment());
-          totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getRepaymentPlan().get(repaymentPlan.getRepaymentPlan().size()-1).getCumulativeInterest());
+          periodicPayment = new Label("Periodic payment: " + repaymentPlan.getPeriodicPayment().setScale(2, RoundingMode.HALF_EVEN));
+          totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getRepaymentPlan().get(repaymentPlan.getRepaymentPlan().size()-1).getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));
           addComponent(periodicPayment);
           addComponent(totalInterestPaid);
         } 
