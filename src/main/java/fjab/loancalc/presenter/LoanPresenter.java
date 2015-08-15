@@ -3,6 +3,7 @@ package fjab.loancalc.presenter;
 import fjab.loancalc.service.LoanService;
 import fjab.loancalc.service.RepaymentPlan;
 import fjab.loancalc.view.LoanBean;
+import fjab.loancalc.view.Periodicity;
 
 public class LoanPresenter {
 	
@@ -16,15 +17,15 @@ public class LoanPresenter {
 	
 	public RepaymentPlan calculateRepaymentPlan() throws Exception{
 		
-		String repaymentPeriodicity = loanBean.getRepaymentPeriodicity();
+		Periodicity repaymentPeriodicity = loanBean.getRepaymentPeriodicity();
 		Integer numberAnnualPayments = null;
-		if("Monthly".equals(repaymentPeriodicity)){
+		if(Periodicity.MONTHLY==repaymentPeriodicity){
 			numberAnnualPayments = 12;
 		}
-		else if("Quarterly".equals(repaymentPeriodicity)){
+		else if(Periodicity.QUARTERLY==repaymentPeriodicity){
 			numberAnnualPayments = 4;
 		}
-		else if("Yearly".equals(repaymentPeriodicity)){
+		else if(Periodicity.YEARLY==repaymentPeriodicity){
 			numberAnnualPayments = 1;
 		}
 		else{

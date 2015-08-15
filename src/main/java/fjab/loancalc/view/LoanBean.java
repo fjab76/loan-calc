@@ -6,7 +6,7 @@ public class LoanBean {
 	
 	private BigDecimal annualInterestRate;
 	private BigDecimal loanAmount;
-	private String repaymentPeriodicity = "Monthly";//default value
+	private Periodicity repaymentPeriodicity = Periodicity.MONTHLY;//default value
 	private Integer loanLengthYears;
 	private Integer loanLengthMonths;
 	
@@ -14,7 +14,7 @@ public class LoanBean {
 	
 	public LoanBean(BigDecimal annualInterestRate,
 					BigDecimal loanAmount,
-					String repaymentPeriodicity,				    
+					Periodicity repaymentPeriodicity,				    
 				    Integer loanLengthYears,
 				    Integer loanLengthMonths){
 		this.annualInterestRate = annualInterestRate;
@@ -62,11 +62,11 @@ public class LoanBean {
 		this.loanLengthMonths = loanLengthMonths;
 	}
 
-	public String getRepaymentPeriodicity() {
+	public Periodicity getRepaymentPeriodicity() {
 		return repaymentPeriodicity;
 	}
 
-	public void setRepaymentPeriodicity(String repaymentPeriodicity) {
+	public void setRepaymentPeriodicity(Periodicity repaymentPeriodicity) {
 		this.repaymentPeriodicity = repaymentPeriodicity;
 	}
 

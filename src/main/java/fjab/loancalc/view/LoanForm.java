@@ -56,7 +56,7 @@ public class LoanForm extends FormLayout {
 		loanAmount.addValidator(new NullValidator("Mandatory field", false));
 		loanAmount.addValidator(new BigDecimalRangeValidator("Value must be greater than 0", BigDecimal.ZERO, BigDecimal.valueOf(Double.MAX_VALUE)));
 		
-		repaymentPeriodicity.addItems("Monthly","Quarterly","Yearly");
+		repaymentPeriodicity.addItems((Object[])Periodicity.values());
 
 		loanLengthYears.setNullRepresentation("");
 		loanLengthYears.setRequired(true);
@@ -108,7 +108,7 @@ public class LoanForm extends FormLayout {
           
           LoanBean loanBean = new LoanBean((BigDecimal)fieldGroup.getItemDataSource().getItemProperty("annualInterestRate").getValue(),
         		  						   (BigDecimal)fieldGroup.getItemDataSource().getItemProperty("loanAmount").getValue(),
-        		  						   (String)fieldGroup.getItemDataSource().getItemProperty("repaymentPeriodicity").getValue(),        		  						   
+        		  						   (Periodicity)fieldGroup.getItemDataSource().getItemProperty("repaymentPeriodicity").getValue(),        		  						   
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthYears").getValue(),
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
           System.out.println(loanBean);
