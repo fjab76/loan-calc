@@ -85,12 +85,23 @@ public class LoanForm extends FormLayout {
         		  						   (Integer)fieldGroup.getItemDataSource().getItemProperty("loanLengthMonths").getValue());
           System.out.println(loanBean);
           RepaymentPlan repaymentPlan = new LoanPresenter(new LoanServiceImp(), loanBean).calculateRepaymentPlan();
-          if(periodicPayment!=null) removeComponent(periodicPayment);
-          if(totalInterestPaid!=null) removeComponent(totalInterestPaid);
-          periodicPayment = new Label("Periodic payment: " + repaymentPlan.getPeriodicPayment().setScale(2, RoundingMode.HALF_EVEN));
-          totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));
-          addComponent(periodicPayment);
-          addComponent(totalInterestPaid);
+
+          if(periodicPayment==null) {        	
+        	  periodicPayment = new Label("Periodic payment: " + repaymentPlan.getPeriodicPayment().setScale(2, RoundingMode.HALF_EVEN));
+        	  addComponent(periodicPayment);
+          }
+          else{
+        	  periodicPayment.setValue("Periodic payment: " + repaymentPlan.getPeriodicPayment().setScale(2, RoundingMode.HALF_EVEN));
+          }
+        	  
+          if(totalInterestPaid==null){
+        	  totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));
+        	  addComponent(totalInterestPaid);
+          }
+          else{
+        	  totalInterestPaid.setValue("Total interest paid: " + repaymentPlan.getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));  
+          }
+          
         } 
 		catch (CommitException e) {
           Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
