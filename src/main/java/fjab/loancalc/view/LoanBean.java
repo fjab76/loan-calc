@@ -6,7 +6,7 @@ public class LoanBean {
 	
 	private BigDecimal annualInterestRate;
 	private BigDecimal loanAmount;
-	private String repaymentPeriodicity;
+	private String repaymentPeriodicity = "Monthly";//default value
 	//private Integer numberAnnualPayments;
 	private Integer loanLengthYears;
 	private Integer loanLengthMonths;
