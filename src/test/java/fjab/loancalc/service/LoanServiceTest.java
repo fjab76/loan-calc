@@ -1,6 +1,8 @@
 package fjab.loancalc.service;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 
@@ -38,14 +40,43 @@ public class LoanServiceTest {
 		loanServiceImp.setLoanServiceHelper(new LoanServiceHelper());
 	}
 	
-	/*@Test
-	public void calculatePeriodicPayment(){	
+	@Test
+	public void myTest(){
+		BigDecimal one = BigDecimal.ONE;System.out.println("one scale:"+one.scale());
+		BigDecimal two = new BigDecimal("0.02");System.out.println("two scale:"+two.scale());
+		BigDecimal exp = one.divide(new BigDecimal(12),MathContext.DECIMAL32);System.out.println("exp scale:"+exp.scale());
+		System.out.println("result:"+exp);
+	}
+	
+	@Test
+	public void getInterestRateForEveryPeriod() throws Exception{
 		
-		BigDecimal monthlyInterestRate = Math.pow(1+ANNUAL_INTEREST_RATE,1./NUMBER_ANNUAL_PAYMENTS)-1;
-		BigDecimal periodicPayment = loanServiceImp.workOutPeriodicPayment(monthlyInterestRate, START_BALANCE, NUMBER_ANNUAL_PAYMENTS);
+		double annualInterestRate = 0.05; 
+		int numberAnnualPayments = 12;
 		
-		assertEquals(856, periodicPayment,1);
-	}*/
+		Class<?> clazz = Class.forName(LoanServiceImp.class.getName());
+		Method method = clazz.getDeclaredMethod("getInterestRateForEveryPeriod", BigDecimal.class, Integer.class);
+		method.setAccessible(true);
+		BigDecimal interest = (BigDecimal) method.invoke(loanServiceImp, new BigDecimal(annualInterestRate,MathContext.DECIMAL32),numberAnnualPayments);
+
+		assertEquals(0.05/12,interest.doubleValue(),0.001);
+	}
+	
+	@Test
+	public void calculatePeriodicPayment() throws Exception{	
+		
+		BigDecimal monthlyInterestRate = ANNUAL_INTEREST_RATE.divide(BigDecimal.valueOf(NUMBER_ANNUAL_PAYMENTS),MathContext.DECIMAL32);
+
+		//BigDecimal periodicPayment = loanServiceImp.workOutPeriodicPayment(monthlyInterestRate, START_BALANCE, NUMBER_ANNUAL_PAYMENTS);
+		
+		Class<?> clazz = Class.forName(LoanServiceImp.class.getName());
+		Method method = clazz.getDeclaredMethod("workOutPeriodicPayment", BigDecimal.class, BigDecimal.class, int.class);
+		method.setAccessible(true);
+		BigDecimal periodicPayment = (BigDecimal) method.invoke(loanServiceImp, monthlyInterestRate, START_BALANCE, NUMBER_ANNUAL_PAYMENTS);
+
+		
+		assertEquals(856, periodicPayment.doubleValue(),1);
+	}
 	
 	@Test
 	public void calculateRepaymentPlan() throws Exception{
@@ -151,7 +182,7 @@ public class LoanServiceTest {
 		startBalanceForPeriod = endBalance;
 		payment = BigDecimal.valueOf(856);
 		capitalPaidOff = BigDecimal.valueOf(832);
-		interestPaid = BigDecimal.valueOf(250);
+		interestPaid = BigDecimal.valueOf(25);
 		cumulativeCapitalPaidOff = cumulativeCapitalPaidOff.add(capitalPaidOff);
 		cumulativeInterest = cumulativeInterest.add(interestPaid);
 		totalCostToDate = cumulativeCapitalPaidOff.add(cumulativeInterest);	

@@ -2,6 +2,7 @@ package fjab.loancalc.service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 import org.apache.log4j.Logger;
 
@@ -37,7 +38,8 @@ public class LoanServiceImp implements LoanService {
 		
 		//periodic payment
 		//BigDecimal periodicPayment = BigDecimal.valueOf(p*(i+(i/(Math.pow(1+i,n)-1))));
-		BigDecimal periodicPayment = p.multiply(i.add(i.divide(BigDecimal.ONE.add(i).pow(n).min(BigDecimal.ONE),new MathContext(2))));
+		//BigDecimal periodicPayment = p.multiply(i.add(i.divide(BigDecimal.ONE.add(i).pow(n).min(BigDecimal.ONE),MathContext.DECIMAL32)));
+		BigDecimal periodicPayment = p.multiply(i.add(i.divide(BigDecimal.ONE.add(i).pow(n).subtract(BigDecimal.ONE),MathContext.DECIMAL32)));
 		return periodicPayment;
 	}
 
@@ -233,8 +235,7 @@ public class LoanServiceImp implements LoanService {
 
 
 	private BigDecimal getInterestRateForEveryPeriod(BigDecimal annualInterestRate,Integer numberAnnualPayments) {		
-		//return BigDecimal.valueOf(Math.pow(1+annualInterestRate.doubleValue(),1./numberAnnualPayments.doubleValue())-1);
-		return BigDecimal.ONE.add(annualInterestRate).pow(BigDecimal.ONE.divide(new BigDecimal(numberAnnualPayments),new MathContext(2)).intValue()).subtract(BigDecimal.ONE);
+		return new BigDecimal(Math.pow(1+annualInterestRate.doubleValue(),1./numberAnnualPayments.doubleValue())-1,MathContext.DECIMAL32);
 	}
 
 	public void setLoanServiceHelper(LoanServiceHelper loanServiceHelper) {
