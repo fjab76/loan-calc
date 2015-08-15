@@ -7,7 +7,6 @@ public class LoanBean {
 	private BigDecimal annualInterestRate;
 	private BigDecimal loanAmount;
 	private String repaymentPeriodicity = "Monthly";//default value
-	//private Integer numberAnnualPayments;
 	private Integer loanLengthYears;
 	private Integer loanLengthMonths;
 	
@@ -21,7 +20,6 @@ public class LoanBean {
 		this.annualInterestRate = annualInterestRate;
 		this.loanAmount = loanAmount;
 		this.repaymentPeriodicity = repaymentPeriodicity;
-		//this.numberAnnualPayments = numberAnnualPayments;
 		this.loanLengthYears = loanLengthYears;
 		this.loanLengthMonths = loanLengthMonths;
 	}
@@ -33,7 +31,6 @@ public class LoanBean {
 		sb.append("annualInterestRate:").append(this.annualInterestRate).append("\n");
 		sb.append("loanAmount:").append(this.loanAmount).append("\n");
 		sb.append("repaymentPeriodicity:").append(this.repaymentPeriodicity).append("\n");
-		//sb.append("numberAnnualPayments:").append(this.numberAnnualPayments).append("\n");
 		sb.append("loanLengthYears:").append(this.loanLengthYears).append("\n");
 		sb.append("loanLengthMonths:").append(this.loanLengthMonths).append("\n");
 		return sb.toString();
@@ -51,12 +48,7 @@ public class LoanBean {
 	public void setLoanAmount(BigDecimal loanAmount) {
 		this.loanAmount = loanAmount;
 	}
-	/*public Integer getNumberAnnualPayments() {
-		return numberAnnualPayments;
-	}
-	public void setNumberAnnualPayments(Integer numberAnnualPayments) {
-		this.numberAnnualPayments = numberAnnualPayments;
-	}*/
+	
 	public Integer getLoanLengthYears() {
 		return loanLengthYears;
 	}
@@ -77,7 +69,5 @@ public class LoanBean {
 	public void setRepaymentPeriodicity(String repaymentPeriodicity) {
 		this.repaymentPeriodicity = repaymentPeriodicity;
 	}
-
-
 
 }
