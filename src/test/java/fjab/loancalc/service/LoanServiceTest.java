@@ -3,7 +3,6 @@ package fjab.loancalc.service;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -24,12 +23,11 @@ import static org.junit.Assert.*;
 public class LoanServiceTest {
 	
 	private static final Logger LOGGER = Logger.getLogger(LoanServiceTest.class);
-	private static final int SCALE = 2;
 
 	private LoanServiceImp loanServiceImp;
 	
-	private final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(0.05).setScale(SCALE,RoundingMode.HALF_EVEN);
-	private final BigDecimal START_BALANCE = BigDecimal.valueOf(10000).setScale(SCALE,RoundingMode.HALF_EVEN);
+	private final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(0.05);
+	private final BigDecimal START_BALANCE = BigDecimal.valueOf(10000);
 	private final int NUMBER_ANNUAL_PAYMENTS = 12;//12 months
 	private final int LOAN_LENGTH = 12;//total number of payments
 	
@@ -41,14 +39,6 @@ public class LoanServiceTest {
 	}
 	
 	@Test
-	public void myTest(){
-		BigDecimal one = BigDecimal.ONE;System.out.println("one scale:"+one.scale());
-		BigDecimal two = new BigDecimal("0.02");System.out.println("two scale:"+two.scale());
-		BigDecimal exp = one.divide(new BigDecimal(12),MathContext.DECIMAL32);System.out.println("exp scale:"+exp.scale());
-		System.out.println("result:"+exp);
-	}
-	
-	@Test
 	public void getInterestRateForEveryPeriod() throws Exception{
 		
 		double annualInterestRate = 0.05; 
@@ -57,7 +47,7 @@ public class LoanServiceTest {
 		Class<?> clazz = Class.forName(LoanServiceImp.class.getName());
 		Method method = clazz.getDeclaredMethod("getInterestRateForEveryPeriod", BigDecimal.class, Integer.class);
 		method.setAccessible(true);
-		BigDecimal interest = (BigDecimal) method.invoke(loanServiceImp, new BigDecimal(annualInterestRate,MathContext.DECIMAL32),numberAnnualPayments);
+		BigDecimal interest = (BigDecimal) method.invoke(loanServiceImp, new BigDecimal(annualInterestRate),numberAnnualPayments);
 
 		assertEquals(0.05/12,interest.doubleValue(),0.001);
 	}
@@ -85,13 +75,13 @@ public class LoanServiceTest {
 		int paymentNumber = 0;
 		int periodNumber = 0;
 		BigDecimal startBalanceForPeriod=START_BALANCE;
-		BigDecimal payment = BigDecimal.ZERO.setScale(SCALE,RoundingMode.HALF_EVEN);
-		BigDecimal capitalPaidOff=BigDecimal.ZERO.setScale(SCALE,RoundingMode.HALF_EVEN);
-		BigDecimal interestPaid=BigDecimal.ZERO.setScale(SCALE,RoundingMode.HALF_EVEN);
-		BigDecimal cumulativeCapitalPaidOff=BigDecimal.ZERO.setScale(SCALE,RoundingMode.HALF_EVEN);
-		BigDecimal cumulativeInterest=BigDecimal.ZERO.setScale(SCALE,RoundingMode.HALF_EVEN);
+		BigDecimal payment = BigDecimal.ZERO;
+		BigDecimal capitalPaidOff=BigDecimal.ZERO;
+		BigDecimal interestPaid=BigDecimal.ZERO;
+		BigDecimal cumulativeCapitalPaidOff=BigDecimal.ZERO;
+		BigDecimal cumulativeInterest=BigDecimal.ZERO;
 		BigDecimal endBalance=START_BALANCE;
-		BigDecimal totalCostToDate=BigDecimal.ZERO.setScale(SCALE,RoundingMode.HALF_EVEN);
+		BigDecimal totalCostToDate=BigDecimal.ZERO;
 
 		//repayment 1
 		Repayment repayment = new Repayment();
@@ -298,7 +288,6 @@ public class LoanServiceTest {
 		repaymentPlan.setLoanLength(LOAN_LENGTH);
 		loanServiceImp.calculateRepaymentPlan(repaymentPlan);
 		
-		//assertEquals(repaymentPlanExpected.getRepaymentPlan(), repaymentPlan.getRepaymentPlan());
 		assertThat(repaymentPlan.getRepaymentPlan(),matchRepayment(expectedRepaymentPlan.getRepaymentPlan()));
 		
 	}
@@ -306,24 +295,24 @@ public class LoanServiceTest {
 	@Test
 	public void calculateRepaymentPlanWithOverpaymentToKeepLoanLength() throws Exception{
 		
-		final BigDecimal START_BALANCE = BigDecimal.valueOf(1000).setScale(SCALE);
-		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.05).setScale(SCALE);
+		final BigDecimal START_BALANCE = BigDecimal.valueOf(1000);
+		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.05);
 		final int LOAN_LENGTH = 9;
 		final int OVERPAYMENT_PERIOD = 3;
-		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(100).setScale(SCALE);
+		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(100);
 		final OverpaymentType OVERPAYMENT_TYPE = OverpaymentType.KEEP_LOAN_LENGTH;
 		
 		RepaymentPlan expectedRepaymentPlan = new RepaymentPlan();
 		int paymentNumber = 0;
 		int periodNumber = 0;
 		BigDecimal startBalanceForPeriod=START_BALANCE;
-		BigDecimal payment = BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal capitalPaidOff=BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal interestPaid=BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal cumulativeCapitalPaidOff=BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal cumulativeInterest=BigDecimal.ZERO.setScale(SCALE);
+		BigDecimal payment = BigDecimal.ZERO;
+		BigDecimal capitalPaidOff=BigDecimal.ZERO;
+		BigDecimal interestPaid=BigDecimal.ZERO;
+		BigDecimal cumulativeCapitalPaidOff=BigDecimal.ZERO;
+		BigDecimal cumulativeInterest=BigDecimal.ZERO;
 		BigDecimal endBalance=START_BALANCE;
-		BigDecimal totalCostToDate=BigDecimal.ZERO.setScale(SCALE);
+		BigDecimal totalCostToDate=BigDecimal.ZERO;
 		
 		//repayment 1
 		{
@@ -522,24 +511,24 @@ public class LoanServiceTest {
 	@Test
 	public void calculateRepaymentPlanWithOverpaymentToKeepPeriodicPayment() throws Exception{
 		
-		final BigDecimal START_BALANCE = BigDecimal.valueOf(1000).setScale(SCALE);
-		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.05).setScale(SCALE);
+		final BigDecimal START_BALANCE = BigDecimal.valueOf(1000);
+		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.05);
 		final int LOAN_LENGTH = 12;
 		final int OVERPAYMENT_PERIOD = 3;
-		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(200).setScale(SCALE);
+		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(200);
 		final OverpaymentType OVERPAYMENT_TYPE = OverpaymentType.KEEP_PERIODIC_REPAYMENT;
 		
 		RepaymentPlan expectedRepaymentPlan = new RepaymentPlan();
 		int paymentNumber = 0;
 		int periodNumber = 0;
 		BigDecimal startBalanceForPeriod=START_BALANCE;
-		BigDecimal payment = BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal capitalPaidOff=BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal interestPaid=BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal cumulativeCapitalPaidOff=BigDecimal.ZERO.setScale(SCALE);
-		BigDecimal cumulativeInterest=BigDecimal.ZERO.setScale(SCALE);
+		BigDecimal payment = BigDecimal.ZERO;
+		BigDecimal capitalPaidOff=BigDecimal.ZERO;
+		BigDecimal interestPaid=BigDecimal.ZERO;
+		BigDecimal cumulativeCapitalPaidOff=BigDecimal.ZERO;
+		BigDecimal cumulativeInterest=BigDecimal.ZERO;
 		BigDecimal endBalance=START_BALANCE;
-		BigDecimal totalCostToDate=BigDecimal.ZERO.setScale(SCALE);
+		BigDecimal totalCostToDate=BigDecimal.ZERO;
 		
 		//repayment 1		
 		{
@@ -799,14 +788,14 @@ public class LoanServiceTest {
 							for(int j=0;j<theExpected.size();j++){
 								assertEquals("paymentNumber",theExpected.get(j).getPaymentNumber(), actual.get(j).getPaymentNumber());
 								assertEquals("periodNumber",theExpected.get(j).getPeriodNumber(), actual.get(j).getPeriodNumber());
-								assertEquals("startBalance",theExpected.get(j).getStartBalance().doubleValue(), actual.get(j).getStartBalance().doubleValue(),10);
+								assertEquals("startBalance",theExpected.get(j).getStartBalance().doubleValue(), actual.get(j).getStartBalance().doubleValue(),5);
 								assertEquals("payment",theExpected.get(j).getPayment().doubleValue(), actual.get(j).getPayment().doubleValue(),5);
-								assertEquals("capitalPaidOff",theExpected.get(j).getCapitalPaidOff().doubleValue(), actual.get(j).getCapitalPaidOff().doubleValue(),10);
-								assertEquals("interestPaid",theExpected.get(j).getInterestPaid().doubleValue(), actual.get(j).getInterestPaid().doubleValue(),10);
-								assertEquals("endBalance",theExpected.get(j).getEndBalance().doubleValue(), actual.get(j).getEndBalance().doubleValue(),10);
-								assertEquals("cumulativePaidOff",theExpected.get(j).getCumulativeCapitalPaidOff().doubleValue(), actual.get(j).getCumulativeCapitalPaidOff().doubleValue(),10);
-								assertEquals("cumulativeInterest",theExpected.get(j).getCumulativeInterest().doubleValue(), actual.get(j).getCumulativeInterest().doubleValue(),10);
-								assertEquals("totalCostDate",theExpected.get(j).getTotalCostToDate().doubleValue(), actual.get(j).getTotalCostToDate().doubleValue(),10);								
+								assertEquals("capitalPaidOff",theExpected.get(j).getCapitalPaidOff().doubleValue(), actual.get(j).getCapitalPaidOff().doubleValue(),5);
+								assertEquals("interestPaid",theExpected.get(j).getInterestPaid().doubleValue(), actual.get(j).getInterestPaid().doubleValue(),5);
+								assertEquals("endBalance",theExpected.get(j).getEndBalance().doubleValue(), actual.get(j).getEndBalance().doubleValue(),5);
+								assertEquals("cumulativePaidOff",theExpected.get(j).getCumulativeCapitalPaidOff().doubleValue(), actual.get(j).getCumulativeCapitalPaidOff().doubleValue(),5);
+								assertEquals("cumulativeInterest",theExpected.get(j).getCumulativeInterest().doubleValue(), actual.get(j).getCumulativeInterest().doubleValue(),7);
+								assertEquals("totalCostDate",theExpected.get(j).getTotalCostToDate().doubleValue(), actual.get(j).getTotalCostToDate().doubleValue(),7);								
 							}
 							return true;
 						}
@@ -831,11 +820,11 @@ public class LoanServiceTest {
 	public void simulateMortgageWithOverpaymentKeepingLoanLength() throws Exception{
 		
 		//DATA COLLECTED ON 10-01-2014
-		final BigDecimal START_BALANCE = BigDecimal.valueOf(164677).setScale(SCALE,RoundingMode.HALF_EVEN);
-		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.01131).setScale(SCALE,RoundingMode.HALF_EVEN);
+		final BigDecimal START_BALANCE = BigDecimal.valueOf(164677);
+		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.01131);
 		final int LOAN_LENGTH = 287;
 		final int OVERPAYMENT_PERIOD = 1;
-		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(10000).setScale(SCALE);
+		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(10000);
 		final OverpaymentType OVERPAYMENT_TYPE = OverpaymentType.KEEP_LOAN_LENGTH;
 		
 
@@ -855,11 +844,11 @@ public class LoanServiceTest {
 	public void simulateMortgageWithOverpaymentKeepingPayment() throws Exception{
 		
 		//DATA COLLECTED ON 10-01-2014
-		final BigDecimal START_BALANCE = BigDecimal.valueOf(164677).setScale(SCALE,RoundingMode.HALF_EVEN);
-		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.01131).setScale(SCALE,RoundingMode.HALF_EVEN);
+		final BigDecimal START_BALANCE = BigDecimal.valueOf(164677);
+		final BigDecimal ANNUAL_INTEREST_RATE = BigDecimal.valueOf(.01131);
 		final int LOAN_LENGTH = 287;
 		final int OVERPAYMENT_PERIOD = 1;
-		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(10000).setScale(SCALE,RoundingMode.HALF_EVEN);
+		final BigDecimal OVERPAYMENT_AMOUNT = BigDecimal.valueOf(10000);
 		final OverpaymentType OVERPAYMENT_TYPE = OverpaymentType.KEEP_PERIODIC_REPAYMENT;
 		
 

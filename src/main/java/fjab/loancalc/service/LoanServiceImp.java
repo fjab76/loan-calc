@@ -2,8 +2,6 @@ package fjab.loancalc.service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
-
 import org.apache.log4j.Logger;
 
 import fjab.loancalc.service.RepaymentPlan.OverpaymentType;
@@ -38,7 +36,6 @@ public class LoanServiceImp implements LoanService {
 		
 		//periodic payment
 		//BigDecimal periodicPayment = BigDecimal.valueOf(p*(i+(i/(Math.pow(1+i,n)-1))));
-		//BigDecimal periodicPayment = p.multiply(i.add(i.divide(BigDecimal.ONE.add(i).pow(n).min(BigDecimal.ONE),MathContext.DECIMAL32)));
 		BigDecimal periodicPayment = p.multiply(i.add(i.divide(BigDecimal.ONE.add(i).pow(n).subtract(BigDecimal.ONE),MathContext.DECIMAL32)));
 		return periodicPayment;
 	}
@@ -234,7 +231,8 @@ public class LoanServiceImp implements LoanService {
 	
 
 
-	private BigDecimal getInterestRateForEveryPeriod(BigDecimal annualInterestRate,Integer numberAnnualPayments) {		
+	private BigDecimal getInterestRateForEveryPeriod(BigDecimal annualInterestRate,Integer numberAnnualPayments) {	
+		//It is necessary to use Math.pow as BigDecimal.pow only accepts integer exponents
 		return new BigDecimal(Math.pow(1+annualInterestRate.doubleValue(),1./numberAnnualPayments.doubleValue())-1,MathContext.DECIMAL32);
 	}
 
