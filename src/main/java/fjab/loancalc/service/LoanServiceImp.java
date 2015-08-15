@@ -211,6 +211,11 @@ public class LoanServiceImp implements LoanService {
 			calculateSimpleRepaymentPlan(repaymentPlan);
 		}
 		
+		Repayment lastRepayment = repaymentPlan.getRepaymentPlan().get(repaymentPlan.getRepaymentPlan().size()-1);
+		repaymentPlan.setCumulativeCapitalPaidOff(lastRepayment.getCumulativeCapitalPaidOff());
+		repaymentPlan.setCumulativeInterest(lastRepayment.getCumulativeInterest());
+		repaymentPlan.setTotalCost(lastRepayment.getTotalCostToDate());
+		
 		LOGGER.info("========> REPAYMENT PLAN");
 		for(Repayment repayment : repaymentPlan.getRepaymentPlan()){
 			LOGGER.info(repayment.toString());			

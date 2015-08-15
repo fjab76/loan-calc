@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Representation of the repayment plan. The repayment plan is comprised of repayments spread over
+ * Representation of the repayment plan. This representation is immutable outside its package.
+ * 
+ * The repayment plan is comprised of repayments spread over
  * time. The number of repayments and their value can be calculated according to different systems (capital
  * and interest, interest only, etc.).
  * For a French Amortization System with capital and interest
@@ -48,6 +50,11 @@ public class RepaymentPlan {
 	//is calculated automatically
 	private Integer loanLength;//expressed as number of payments
 	private BigDecimal periodicPayment;
+	
+	//accumulated values
+	private BigDecimal cumulativeCapitalPaidOff;
+	private BigDecimal cumulativeInterest;
+	private BigDecimal totalCost;
 	
 	//Overpayment coordinates
 	private BigDecimal overpaymentAmount;
@@ -143,5 +150,29 @@ public class RepaymentPlan {
 	
 	void deleteRepayments(int first, int end){
 		repaymentPlan.subList(first, end).clear();
+	}
+
+	public BigDecimal getCumulativeCapitalPaidOff() {
+		return cumulativeCapitalPaidOff;
+	}
+
+	public BigDecimal getCumulativeInterest() {
+		return cumulativeInterest;
+	}
+
+	public BigDecimal getTotalCost() {
+		return totalCost;
+	}
+
+	void setCumulativeCapitalPaidOff(BigDecimal cumulativeCapitalPaidOff) {
+		this.cumulativeCapitalPaidOff = cumulativeCapitalPaidOff;
+	}
+
+	void setCumulativeInterest(BigDecimal cumulativeInterest) {
+		this.cumulativeInterest = cumulativeInterest;
+	}
+
+	void setTotalCost(BigDecimal totalCost) {
+		this.totalCost = totalCost;
 	}
 }

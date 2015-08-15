@@ -1,9 +1,12 @@
 package fjab.loancalc.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
- * Representation of a single loan repayment. A loan repayment is defined by the following
+ * Representation of a single loan repayment. This representation is immutable outside its package.
+ * 
+ * A loan repayment is defined by the following
  * attributes:
  * -start balance: principal of the loan left before the repayment
  * -payment: amount of money paid in this repayment
@@ -136,21 +139,21 @@ public class Repayment{
 		builder.append(", paymentNumber=");
 		builder.append(paymentNumber);
 		builder.append(", startBalance=");
-		builder.append(startBalance);
+		builder.append(startBalance.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", payment=");
-		builder.append(payment);
+		builder.append(payment.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", capitalPaidOff=");
-		builder.append(capitalPaidOff);
+		builder.append(capitalPaidOff.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", interestPaid=");
-		builder.append(interestPaid);
+		builder.append(interestPaid.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", cumulativeCapitalPaidOff=");
-		builder.append(cumulativeCapitalPaidOff);
+		builder.append(cumulativeCapitalPaidOff.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", cumulativeInterest=");
-		builder.append(cumulativeInterest);
+		builder.append(cumulativeInterest.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", endBalance=");
-		builder.append(endBalance);
+		builder.append(endBalance.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append(", totalCostToDate=");
-		builder.append(totalCostToDate);
+		builder.append(totalCostToDate.setScale(2, RoundingMode.HALF_EVEN));
 		builder.append("]");
 		return builder.toString();
 	}

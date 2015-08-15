@@ -88,7 +88,7 @@ public class LoanForm extends FormLayout {
           if(periodicPayment!=null) removeComponent(periodicPayment);
           if(totalInterestPaid!=null) removeComponent(totalInterestPaid);
           periodicPayment = new Label("Periodic payment: " + repaymentPlan.getPeriodicPayment().setScale(2, RoundingMode.HALF_EVEN));
-          totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getRepaymentPlan().get(repaymentPlan.getRepaymentPlan().size()-1).getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));
+          totalInterestPaid = new Label("Total interest paid: " + repaymentPlan.getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));
           addComponent(periodicPayment);
           addComponent(totalInterestPaid);
         } 
