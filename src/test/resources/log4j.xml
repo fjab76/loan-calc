@@ -8,7 +8,7 @@
     </layout> 
   </appender> 
   <appender name="R" class="org.apache.log4j.RollingFileAppender"> 
-    <param name="file" value="/home/fjab/log.txt"/>
+    <param name="file" value="logs/log.txt"/>
     <param name="MaxFileSize" value="10000KB"/>
     <!-- Keep one backup file -->
     <param name="MaxBackupIndex" value="10"/>
