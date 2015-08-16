@@ -34,43 +34,31 @@ public class LoanUI extends UI {
     	main.setMargin(true);
     	
     	//Creating horizontal container
-    	HorizontalLayout hor = new HorizontalLayout();
-    	main.addComponent(hor);
+    	//HorizontalLayout hor = new HorizontalLayout();
+    	//main.addComponent(hor);
     	
     	//Creating panel
     	Panel userInfoPanel = new Panel("User info");
-    	hor.addComponent(userInfoPanel);
+    	main.addComponent(userInfoPanel);
     	userInfoPanel.setSizeUndefined();
     	
     	//Creating content for the panel. The panel contains user info
-    	FormLayout userInfoPanelContent = new FormLayout();
-    	userInfoPanel.setContent(userInfoPanelContent);
-    	userInfoPanelContent.setSizeUndefined();
-    	userInfoPanelContent.setMargin(true);
-    	createNameComponent(userInfoPanelContent);
-    	createDescriptionComponent(userInfoPanelContent);
+    	HorizontalLayout hor = new HorizontalLayout();
+    	userInfoPanel.setContent(hor);
+    	
+    	FormLayout nameForm = new FormLayout();
+    	nameForm.setMargin(true);
+    	FormLayout descriptionForm = new FormLayout();
+    	descriptionForm.setMargin(true);
+    	hor.addComponent(nameForm);
+    	hor.addComponent(descriptionForm);
+    	createNameComponent(nameForm);
+    	createDescriptionComponent(descriptionForm);
     	
     	//Creating loan form
-    	hor.addComponent(new LoanForm());
-    	
-        
+    	main.addComponent(new LoanForm());
 
     }
-    /*protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(true);
-        setContent(layout);
-
-        Button button = new Button("Click Me");
-        button.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label("Thank you for clicking"));
-            }
-        });
-        layout.addComponent(button);
-
-    }*/
     
     private void createNameComponent(Layout layout){
     	TextField name = new TextField("Name");

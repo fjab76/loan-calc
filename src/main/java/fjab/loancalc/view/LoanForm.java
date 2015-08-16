@@ -30,6 +30,8 @@ import com.vaadin.ui.Button.ClickEvent;
 
 public class LoanForm extends FormLayout {
 	
+	private static final int VAADIN_DEFAULT_PAGE_LENGTH = 15;
+	
 	private TextField annualInterestRate = new TextField("Annual interest rate");
 	private TextField loanAmount = new TextField("Loan amount");
 	// A single-select radio button group
@@ -147,8 +149,11 @@ public class LoanForm extends FormLayout {
 	}
 
 	private void renderAmortizationTable(List<Repayment> repaymentPlan) {
-		
-		if(table!=null) removeComponent(table);
+				
+		if(table.getItemIds().size()>0){
+			removeComponent(table);
+			table.removeAllItems();
+		}
 		addComponent(table);
 		
 		// Define columns for the built-in container
@@ -165,13 +170,19 @@ public class LoanForm extends FormLayout {
 		for(int j=0; j<repaymentPlan.size(); j++){
 			table.addItem(new Object[]{repaymentPlan.get(j).getPeriodNumber(),
 									   repaymentPlan.get(j).getPeriodNumber(),
-									   repaymentPlan.get(j).getStartBalance(),
-									   repaymentPlan.get(j).getPayment(),
-									   repaymentPlan.get(j).getCapitalPaidOff(),
-									   repaymentPlan.get(j).getInterestPaid(),
-									   repaymentPlan.get(j).getEndBalance()},j);
+									   repaymentPlan.get(j).getStartBalance().setScale(2, RoundingMode.HALF_EVEN),
+									   repaymentPlan.get(j).getPayment().setScale(2, RoundingMode.HALF_EVEN),
+									   repaymentPlan.get(j).getCapitalPaidOff().setScale(2, RoundingMode.HALF_EVEN),
+									   repaymentPlan.get(j).getInterestPaid().setScale(2, RoundingMode.HALF_EVEN),
+									   repaymentPlan.get(j).getEndBalance().setScale(2, RoundingMode.HALF_EVEN)},j);
 		}
-		
+
+		if(table.size()<VAADIN_DEFAULT_PAGE_LENGTH){
+			table.setPageLength(table.size());
+		}	
+		else{
+			table.setPageLength(VAADIN_DEFAULT_PAGE_LENGTH);
+		}
 		
 	}
 }
