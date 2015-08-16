@@ -2,6 +2,7 @@ package fjab.loancalc.view;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -17,10 +18,12 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 
 import fjab.loancalc.presenter.LoanPresenter;
 import fjab.loancalc.service.LoanServiceImp;
+import fjab.loancalc.service.Repayment;
 import fjab.loancalc.service.RepaymentPlan;
 
 import com.vaadin.ui.Button.ClickEvent;
@@ -35,6 +38,7 @@ public class LoanForm extends FormLayout {
 	private TextField loanLengthYears = new TextField("years");
 	private TextField loanLengthMonths = new TextField("months");
 	private Button okButton = new Button("OK");
+	private Table table = new Table("Amortization table");
 	
 	private Label periodicPayment;
 	private Label totalInterestPaid;
@@ -130,6 +134,8 @@ public class LoanForm extends FormLayout {
         	  totalInterestPaid.setValue("Total interest paid: " + repaymentPlan.getCumulativeInterest().setScale(2, RoundingMode.HALF_EVEN));  
           }
           
+          renderAmortizationTable(repaymentPlan.getRepaymentPlan());
+          
         } 
 		catch (CommitException e) {
 			e.printStackTrace();
@@ -138,5 +144,34 @@ public class LoanForm extends FormLayout {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void renderAmortizationTable(List<Repayment> repaymentPlan) {
+		
+		if(table!=null) removeComponent(table);
+		addComponent(table);
+		
+		// Define columns for the built-in container
+		//[periodNumber=1, paymentNumber=1, startBalance=10000.00, payment=855.57, capitalPaidOff=814.82, interestPaid=40.74, cumulativeCapitalPaidOff=814.82, cumulativeInterest=40.74, endBalance=9185.18, totalCostToDate=855.57]
+		table.addContainerProperty("periodNumber", Integer.class, null);
+		table.addContainerProperty("paymentNumber",  Integer.class, null);
+		table.addContainerProperty("startBalance",  BigDecimal.class, null);
+		table.addContainerProperty("payment",  BigDecimal.class, null);
+		table.addContainerProperty("capitalPaidOff",  BigDecimal.class, null);
+		table.addContainerProperty("interestPaid",  BigDecimal.class, null);
+		table.addContainerProperty("endBalance",  BigDecimal.class, null);
+		
+		// Add a few other rows using shorthand addItem()
+		for(int j=0; j<repaymentPlan.size(); j++){
+			table.addItem(new Object[]{repaymentPlan.get(j).getPeriodNumber(),
+									   repaymentPlan.get(j).getPeriodNumber(),
+									   repaymentPlan.get(j).getStartBalance(),
+									   repaymentPlan.get(j).getPayment(),
+									   repaymentPlan.get(j).getCapitalPaidOff(),
+									   repaymentPlan.get(j).getInterestPaid(),
+									   repaymentPlan.get(j).getEndBalance()},j);
+		}
+		
+		
 	}
 }
