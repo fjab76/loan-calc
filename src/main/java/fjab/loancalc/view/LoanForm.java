@@ -2,18 +2,22 @@ package fjab.loancalc.view;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.data.validator.BigDecimalRangeValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -26,26 +30,25 @@ import fjab.loancalc.service.LoanServiceImp;
 import fjab.loancalc.service.Repayment;
 import fjab.loancalc.service.RepaymentPlan;
 
-import com.vaadin.ui.Button.ClickEvent;
-
 public class LoanForm extends FormLayout {
 	
 	private static final int VAADIN_DEFAULT_PAGE_LENGTH = 15;
 	
-	private TextField annualInterestRate = new TextField("Annual interest rate");
-	private TextField loanAmount = new TextField("Loan amount");
+	private final TextField annualInterestRate = new TextField("Annual interest rate");
+	private final TextField loanAmount = new TextField("Loan amount");
 	// A single-select radio button group
-	private OptionGroup repaymentPeriodicity = new OptionGroup("Repayment periodicity");
-	private Label loanLength = new Label("<span style='font-size:125%;'>Loan length</span>",ContentMode.HTML);
-	private TextField loanLengthYears = new TextField("years");
-	private TextField loanLengthMonths = new TextField("months");
-	private Button okButton = new Button("OK");
-	private Table table = new Table("Amortization table");
+	private final OptionGroup repaymentPeriodicity = new OptionGroup("Repayment periodicity");
+	private final Label loanLength = new Label("<span style='font-size:125%;'>Loan length</span>",ContentMode.HTML);
+	private final TextField loanLengthYears = new TextField("years");
+	private final TextField loanLengthMonths = new TextField("months");
+	private final Button okButton = new Button("OK");
+	private final Table table = new Table("Amortization table");
+	private final FieldGroup fieldGroup = new BeanFieldGroup<>(LoanBean.class);
 	
 	private Label periodicPayment;
 	private Label totalInterestPaid;
 	
-	FieldGroup fieldGroup;
+	private final MyStringToBigDecimalConverter converter = new MyStringToBigDecimalConverter();
 
 	public LoanForm(){
 		
@@ -56,11 +59,13 @@ public class LoanForm extends FormLayout {
 		//Configuring fields of the form
 		annualInterestRate.setNullRepresentation("");
 		annualInterestRate.addValidator(new NullValidator("Mandatory field", false));
-		annualInterestRate.addValidator(new BigDecimalRangeValidator("Value must be between 0 and 1", BigDecimal.ZERO, BigDecimal.ONE));
+		annualInterestRate.addValidator(new BigDecimalRangeValidator("Value must be between 0 and 1", BigDecimal.ZERO, BigDecimal.ONE));	
+		annualInterestRate.setConverter(converter);	
 		
 		loanAmount.setNullRepresentation("");
 		loanAmount.addValidator(new NullValidator("Mandatory field", false));
 		loanAmount.addValidator(new BigDecimalRangeValidator("Value must be greater than 0", BigDecimal.ZERO, BigDecimal.valueOf(Double.MAX_VALUE)));
+		loanAmount.setConverter(converter);
 		
 		repaymentPeriodicity.addItems((Object[])Periodicity.values());
 
@@ -79,7 +84,7 @@ public class LoanForm extends FormLayout {
 		okButton.addClickListener(event -> createClickListener(event));
 		
 		//Binding form elements to bean
-		fieldGroup = new BeanFieldGroup<>(LoanBean.class);
+		//fieldGroup = new BeanFieldGroup<>(LoanBean.class);
 		fieldGroup.setItemDataSource(new BeanItem<>(new LoanBean()));
 		fieldGroup.bindMemberFields(this);
 		
@@ -184,5 +189,17 @@ public class LoanForm extends FormLayout {
 			table.setPageLength(VAADIN_DEFAULT_PAGE_LENGTH);
 		}
 		
+	}
+	
+	private class MyStringToBigDecimalConverter extends StringToBigDecimalConverter{
+		
+		@Override
+	    protected NumberFormat getFormat(Locale locale) {
+	        NumberFormat numberFormat = super.getFormat(locale);
+	        
+	        //By default setMaximumFractionDigits=3 for the default Locale that is en_US
+	        numberFormat.setMaximumFractionDigits(10);
+	        return numberFormat;
+	    }
 	}
 }
