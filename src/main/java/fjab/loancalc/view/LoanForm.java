@@ -2,20 +2,12 @@ package fjab.loancalc.view;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
-
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.converter.StringToBigDecimalConverter;
-import com.vaadin.data.validator.BigDecimalRangeValidator;
-import com.vaadin.data.validator.IntegerRangeValidator;
-import com.vaadin.data.validator.NullValidator;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
@@ -34,68 +26,58 @@ public class LoanForm extends FormLayout {
 	
 	private static final int VAADIN_DEFAULT_PAGE_LENGTH = 15;
 	
-	private final TextField annualInterestRate = new TextField("Annual interest rate");
-	private final TextField loanAmount = new TextField("Loan amount");
+	private final TextField annualInterestRate;
+	private final TextField loanAmount;
 	// A single-select radio button group
-	private final OptionGroup repaymentPeriodicity = new OptionGroup("Repayment periodicity");
-	private final Label loanLength = new Label("<span style='font-size:125%;'>Loan length</span>",ContentMode.HTML);
-	private final TextField loanLengthYears = new TextField("years");
-	private final TextField loanLengthMonths = new TextField("months");
-	private final Button okButton = new Button("OK");
-	private final Table table = new Table("Amortization table");
-	private final FieldGroup fieldGroup = new BeanFieldGroup<>(LoanBean.class);
+	private final OptionGroup repaymentPeriodicity;
+	private final Label loanLength;
+	private final TextField loanLengthYears;
+	private final TextField loanLengthMonths;
+	private final Button okButton;
+	private final Table table;
 	
 	private Label periodicPayment;
 	private Label totalInterestPaid;
 	
-	private final MyStringToBigDecimalConverter converter = new MyStringToBigDecimalConverter();
+	
 
-	public LoanForm(){
-		
+	public LoanForm(){				
+
 		//Customising form layout
 		setSizeUndefined();
 		setMargin(true);
-		
-		//Configuring fields of the form
-		annualInterestRate.setNullRepresentation("");
-		annualInterestRate.addValidator(new NullValidator("Mandatory field", false));
-		annualInterestRate.addValidator(new BigDecimalRangeValidator("Value must be between 0 and 1", BigDecimal.ZERO, BigDecimal.ONE));	
-		annualInterestRate.setConverter(converter);	
-		
-		loanAmount.setNullRepresentation("");
-		loanAmount.addValidator(new NullValidator("Mandatory field", false));
-		loanAmount.addValidator(new BigDecimalRangeValidator("Value must be greater than 0", BigDecimal.ZERO, BigDecimal.valueOf(Double.MAX_VALUE)));
-		loanAmount.setConverter(converter);
-		
-		repaymentPeriodicity.addItems((Object[])Periodicity.values());
-
-		loanLengthYears.setNullRepresentation("");
-		loanLengthYears.setRequired(true);
-		loanLengthYears.setRequiredError("Both loan length years and loan length months cannot be empty");
-		loanLengthYears.addValidator(new IntegerRangeValidator("Value must be a positive value", 1, Integer.MAX_VALUE));
-		loanLengthYears.addValueChangeListener(event -> createLoanLengthValueChangeListener(event,loanLengthYears,loanLengthMonths));
-		
-		loanLengthMonths.setNullRepresentation("");
-		loanLengthMonths.setRequired(true);
-		loanLengthMonths.setRequiredError("Both loan length years and loan length months cannot be empty");
-		loanLengthMonths.addValidator(new IntegerRangeValidator("Value must be a positive value", 1, Integer.MAX_VALUE));
-		loanLengthMonths.addValueChangeListener(event -> createLoanLengthValueChangeListener(event,loanLengthMonths,loanLengthYears));
-		
-		okButton.addClickListener(event -> createClickListener(event));
+						
+		//Creating and configuring fields of the form
+		FormElementFactory fef = FormElementFactory.getInstance();
+		annualInterestRate = (TextField) fef.createComponent(FormElement.ANNUAL_INTEREST_RATE);
+		addComponent(annualInterestRate);
+		loanAmount = (TextField) fef.createComponent(FormElement.LOAN_AMOUNT);
+		addComponent(loanAmount);
+		repaymentPeriodicity = (OptionGroup) fef.createComponent(FormElement.REPAYMENT_PERIODICITY);
+		addComponent(repaymentPeriodicity);
+		loanLength = (Label) fef.createComponent(FormElement.LOAN_LENGTH);
+		addComponent(loanLength);
+		loanLengthYears = (TextField)fef.createComponent(FormElement.LOAN_LENGTH_YEARS);
+		addComponent(loanLengthYears);
+		loanLengthMonths = (TextField)fef.createComponent(FormElement.LOAN_LENGTH_MONTHS);
+		addComponent(loanLengthMonths);
+		okButton = (Button) fef.createComponent(FormElement.OK_BUTTON);
+		addComponent(okButton);
+		table = (Table) fef.createComponent(FormElement.AMORTIZATION_TABLE);
 		
 		//Binding form elements to bean
-		//fieldGroup = new BeanFieldGroup<>(LoanBean.class);
+		FieldGroup fieldGroup = new BeanFieldGroup<>(LoanBean.class);
 		fieldGroup.setItemDataSource(new BeanItem<>(new LoanBean()));
 		fieldGroup.bindMemberFields(this);
 		
-		//Adding elements to the form
-		addComponent(annualInterestRate);
-	    addComponent(loanAmount);
-	    addComponent(repaymentPeriodicity);
-	    addComponent(loanLength);
-	    addComponent(loanLengthYears);
-	    addComponent(loanLengthMonths);
-	    addComponent(okButton);
+		
+		//Adding listeners to fields of the form
+		loanLengthYears.addValueChangeListener(event -> createLoanLengthValueChangeListener(event,loanLengthYears,loanLengthMonths));
+		loanLengthMonths.addValueChangeListener(event -> createLoanLengthValueChangeListener(event,loanLengthMonths,loanLengthYears));
+		okButton.addClickListener(event -> createClickListener(event,fieldGroup));
+		
+
+		
 	}
 
 	private void createLoanLengthValueChangeListener(ValueChangeEvent event, TextField thisField, TextField theOther) {
@@ -111,7 +93,7 @@ public class LoanForm extends FormLayout {
 		}
 	}
 
-	private void createClickListener(ClickEvent event) {
+	private void createClickListener(ClickEvent event, FieldGroup fieldGroup) {
 		try 
 		{
           fieldGroup.commit();
@@ -154,7 +136,7 @@ public class LoanForm extends FormLayout {
 	}
 
 	private void renderAmortizationTable(List<Repayment> repaymentPlan) {
-				
+
 		if(table.getItemIds().size()>0){
 			removeComponent(table);
 			table.removeAllItems();
@@ -191,15 +173,5 @@ public class LoanForm extends FormLayout {
 		
 	}
 	
-	private class MyStringToBigDecimalConverter extends StringToBigDecimalConverter{
-		
-		@Override
-	    protected NumberFormat getFormat(Locale locale) {
-	        NumberFormat numberFormat = super.getFormat(locale);
-	        
-	        //By default setMaximumFractionDigits=3 for the default Locale that is en_US
-	        numberFormat.setMaximumFractionDigits(10);
-	        return numberFormat;
-	    }
-	}
+	
 }
