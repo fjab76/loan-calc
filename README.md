@@ -1,7 +1,8 @@
 Loan Calculator
 ==============
 
-Application to calculate the amortisation plan of a loan/mortgage
+Web application to calculate the amortisation plan of a loan/mortgage.
+The application is developed in Java 8 and makes use of the framework Vaadin 7.5 to create the UI.
 
 Repayment plan
 --------------
@@ -43,7 +44,7 @@ In general, payment number and period number are the same as only a payment happ
 there are two different payments in the same period.
 
 
-Workflow
+How to run the application
 ========
 
 To compile the entire project, run "mvn install".
