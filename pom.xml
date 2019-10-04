@@ -15,6 +15,7 @@
 		<project.source.version>1.8</project.source.version>
 		<project.target.version>1.8</project.target.version>
 		<project.encoding>UTF-8</project.encoding>
+		<scope.agent.version>0.2.0</scope.agent.version>
 	</properties>
 
 	<repositories>
@@ -47,6 +48,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.undefinedlabs.scope</groupId>
+			<artifactId>scope-agent</artifactId>
+			<version>${scope.agent.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -101,6 +108,13 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-javaagent:${settings.localRepository}/com/undefinedlabs/scope/scope-agent/${scope.agent.version}/scope-agent-${scope.agent.version}.jar</argLine>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

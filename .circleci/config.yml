@@ -19,6 +19,8 @@ jobs:
     environment:
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
+      SCOPE_API_ENDPOINT: https://app.scope.dev
+      SCOPE_APIKEY: caa121f68fa54b2d8f2824743effd98a
 
     steps:
       - checkout
